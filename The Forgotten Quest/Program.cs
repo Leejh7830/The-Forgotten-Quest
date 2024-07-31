@@ -7,13 +7,14 @@ namespace TheForgottenQuest
         static void Main(string[] args)
         {
             bool loading = true;
-            EventManager.Initialize("events.json"); // JSON 파일 경로 설정
             StartGame(ref loading);
         }
 
         static void StartGame(ref bool loading)
         {
             Utility.ShowLoading("", 500, ref loading);
+
+            /////////////////////////////////////////////STEP 0 : 캐릭터 생성 단계/////////////////////////////////////////////
 
             Console.WriteLine("\n===== The Forgotten Quest =====\n");
 
@@ -34,24 +35,12 @@ namespace TheForgottenQuest
             Utility.ShowLoading("", 100, ref loading);
 
             Console.WriteLine($"안녕하세요, {player.Name}님! 모험을 시작합니다.\n");
+
+            /////////////////////////////////////////////STEP 1 : 캐릭터 생성 완료/////////////////////////////////////////////
+
             player.DisplayStats();
 
-            // 메인 퀘스트 시작
             EventManager.RunMainQuest(player);
-
-            // 메인 퀘스트 완료 후 일반 이벤트 시작
-            while (true)
-            {
-                EventManager.RunRandomEvent(player);
-                Console.WriteLine("다음 이벤트를 진행하시겠습니까? (y/n)");
-                string continueGame = Console.ReadLine();
-                if (continueGame?.ToLower() != "y")
-                {
-                    break;
-                }
-            }
-
-            EventManager.EndGame();
         }
     }
 }
