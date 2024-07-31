@@ -32,13 +32,13 @@ namespace TheForgottenQuest
                 case "마법사":
                     HP = 100;
                     MP = 50;
-                    LUK = 10;
+                    LUK = 2;
                     break;
 
                 case "도적":
                     HP = 120;
                     MP = 20;
-                    LUK = 20;
+                    LUK = 5;
                     break;
 
                 default:
