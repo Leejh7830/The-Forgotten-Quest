@@ -15,8 +15,9 @@ namespace TheForgottenQuest
             events = EventLoader.LoadEvents(filePath);
         }
 
-        public static void RunMainQuest(User player)
+        public static void RunMainQuest(User player, string filePath)
         {
+            Initialize(filePath);
             while (currentMainQuestEventId > 0)
             {
                 var gameEvent = events.MainQuest.Find(e => e.Id == currentMainQuestEventId);
@@ -79,8 +80,8 @@ namespace TheForgottenQuest
                 result = gameEvent.NegativeResults[choice];
             }
 
-            EventResultApplier.ApplyResult(player, result);
             Console.WriteLine($"Dice: {roll}\n{result.Message}\n");
+            EventResultApplier.ApplyResult(player, result);
 
             return gameEvent.NextEventId ?? -1;
         }
@@ -117,8 +118,8 @@ namespace TheForgottenQuest
                 result = gameEvent.NegativeResults[choice];
             }
 
-            EventResultApplier.ApplyResult(player, result);
             Console.WriteLine($"Dice: {roll}\n{result.Message}\n");
+            EventResultApplier.ApplyResult(player, result);
         }
 
         public static void EndGame()

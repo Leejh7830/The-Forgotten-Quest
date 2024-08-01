@@ -40,7 +40,8 @@ namespace TheForgottenQuest
 
             player.DisplayStats();
 
-            EventManager.RunMainQuest(player);
+            string filePath = "events.json";
+            EventManager.RunMainQuest(player, filePath);
         }
     }
 }
