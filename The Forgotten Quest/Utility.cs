@@ -11,7 +11,7 @@ namespace TheForgottenQuest
         {
             Console.Write(message);
             Console.Write(" [");
-            int total = 50; // 로딩 게이지의 총 길이
+            int total = 30; // 로딩 게이지의 총 길이
             int interval = duration / total;
 
             for (int i = 0; i < total; i++)
@@ -20,7 +20,7 @@ namespace TheForgottenQuest
                 Console.Write("=");
             }
 
-            Console.WriteLine("] 완료!");
+            Console.WriteLine("]");
             Thread.Sleep(200);
             if (loading)
             {

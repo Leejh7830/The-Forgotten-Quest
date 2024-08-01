@@ -32,7 +32,7 @@ namespace TheForgottenQuest
             }
 
             User player = new User(playerName, playerJob);
-            Utility.ShowLoading("", 100, ref loading);
+            Utility.ShowLoading("", 60, ref loading);
 
             Console.WriteLine($"안녕하세요, {player.Name}님! 모험을 시작합니다.\n");
 
