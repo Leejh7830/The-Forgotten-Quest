@@ -1,9 +1,8 @@
-﻿using System;
-
-namespace TheForgottenQuest
+﻿namespace TheForgottenQuest.User
 {
     public class User
     {
+        public Guid Id { get; set; } // 고유 ID
         public string Name { get; set; }
         public int Level { get; set; }
         public string Job { get; set; }
@@ -13,6 +12,7 @@ namespace TheForgottenQuest
 
         public User(string name, string job)
         {
+            Id = Guid.NewGuid(); // 새로운 고유 ID 생성
             Name = name;
             Level = 1;
             Job = job;
@@ -51,6 +51,7 @@ namespace TheForgottenQuest
         public void DisplayStats()
         {
             Console.WriteLine("=====================================");
+            Console.WriteLine($"ID: {Id}");
             Console.WriteLine($"Name: {Name}");
             Console.WriteLine($"Level: {Level}");
             Console.WriteLine($"Job: {Job}");

@@ -1,4 +1,4 @@
-﻿namespace TheForgottenQuest
+﻿namespace TheForgottenQuest.Events
 {
     public class Result
     {

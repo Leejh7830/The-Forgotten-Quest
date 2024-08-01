@@ -1,10 +1,10 @@
-﻿using System;
+﻿using TheForgottenQuest.User;
 
-namespace TheForgottenQuest
+namespace TheForgottenQuest.Events
 {
     public static class EventConditionChecker
     {
-        public static bool CheckCondition(Event gameEvent, User player, out string failedCondition)
+        public static bool CheckCondition(Event gameEvent, User.User player, out string failedCondition)
         {
             failedCondition = string.Empty;
 
@@ -21,7 +21,7 @@ namespace TheForgottenQuest
             return true;
         }
 
-        private static Func<User, bool> GetCondition(string condition)
+        private static Func<User.User, bool> GetCondition(string condition)
         {
             switch (condition)
             {

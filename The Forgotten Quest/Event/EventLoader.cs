@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace TheForgottenQuest
+namespace TheForgottenQuest.Events
 {
     public static class EventLoader
     {

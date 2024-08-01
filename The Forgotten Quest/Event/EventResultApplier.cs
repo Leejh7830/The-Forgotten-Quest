@@ -1,10 +1,11 @@
 ﻿using System;
+using TheForgottenQuest.User;
 
-namespace TheForgottenQuest
+namespace TheForgottenQuest.Events
 {
     public static class EventResultApplier
     {
-        public static void ApplyResult(User player, Result result)
+        public static void ApplyResult(User.User player, Result result)
         {
             if (result.LevelChange != 0)
             {

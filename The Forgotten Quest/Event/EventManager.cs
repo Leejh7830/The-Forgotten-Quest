@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using TheForgottenQuest.Events;
+using TheForgottenQuest.User;
 
-namespace TheForgottenQuest
+namespace TheForgottenQuest.Events
 {
 
     public static class EventManager
@@ -15,7 +15,7 @@ namespace TheForgottenQuest
             events = EventLoader.LoadEvents(filePath);
         }
 
-        public static void RunMainQuest(User player, string filePath)
+        public static void RunMainQuest(User.User player, string filePath)
         {
             Initialize(filePath);
             while (currentMainQuestEventId > 0)
@@ -37,7 +37,7 @@ namespace TheForgottenQuest
             RunRandomEvent(player);
         }
 
-        public static void RunRandomEvent(User player)
+        public static void RunRandomEvent(User.User player)
         {
             if (player.Level <= 20)
             {
@@ -49,7 +49,7 @@ namespace TheForgottenQuest
             }
         }
 
-        private static int RunMainEvent(List<Event> eventList, int currentEventId, User player)
+        private static int RunMainEvent(List<Event> eventList, int currentEventId, User.User player)
         {
             var gameEvent = eventList.Find(e => e.Id == currentEventId);
 
@@ -86,7 +86,7 @@ namespace TheForgottenQuest
             return gameEvent.NextEventId ?? -1;
         }
 
-        private static void RunSubEvent(List<Event> eventList, User player)
+        private static void RunSubEvent(List<Event> eventList, User.User player)
         {
             if (eventList == null || eventList.Count == 0)
             {

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace TheForgottenQuest
+﻿namespace TheForgottenQuest.User
 {
-    public static class CharacterSetup
+    public static class UserSetup
     {
         public static string GetName()
         {
@@ -63,7 +61,7 @@ namespace TheForgottenQuest
             Console.WriteLine("1. 예");
             Console.WriteLine("2. 아니오");
             int confirmation = 0;
-            while (!int.TryParse(Console.ReadLine(), out confirmation) || (confirmation != 1 && confirmation != 2))
+            while (!int.TryParse(Console.ReadLine(), out confirmation) || confirmation != 1 && confirmation != 2)
             {
                 Console.WriteLine("올바른 번호를 선택하세요. (1 또는 2)");
             }
@@ -71,7 +69,7 @@ namespace TheForgottenQuest
             {
                 Console.Clear();
             }
-            
+
             return confirmation == 1;
         }
     }

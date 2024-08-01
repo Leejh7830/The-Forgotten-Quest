@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-
-namespace TheForgottenQuest
+﻿
+namespace TheForgottenQuest.Events
 {
     public class Event
     {

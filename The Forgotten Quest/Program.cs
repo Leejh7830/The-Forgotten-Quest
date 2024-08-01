@@ -1,4 +1,5 @@
-﻿using System;
+﻿using The_Forgotten_Quest;
+using TheForgottenQuest.Menu;
 
 namespace TheForgottenQuest
 {
@@ -6,42 +7,30 @@ namespace TheForgottenQuest
     {
         static void Main(string[] args)
         {
-            bool loading = true;
-            StartGame(ref loading);
-        }
+            // bool loading = true;
+            bool loading = false;
+            Utility.ShowLoading("", 100, ref loading);
 
-        static void StartGame(ref bool loading)
-        {
-            Utility.ShowLoading("", 500, ref loading);
-
-            /////////////////////////////////////////////STEP 0 : 캐릭터 생성 단계/////////////////////////////////////////////
-
-            Console.WriteLine("\n===== The Forgotten Quest =====\n");
-
-            Console.WriteLine("모험 게임에 오신 것을 환영합니다!");
-
-            string playerName = CharacterSetup.GetName();
-            string playerJob = CharacterSetup.GetJob();
-
-            bool confirmation = CharacterSetup.ConfirmSelection(playerName, playerJob);
-            while (!confirmation)
+            while (true)
             {
-                playerName = CharacterSetup.GetName();
-                playerJob = CharacterSetup.GetJob();
-                confirmation = CharacterSetup.ConfirmSelection(playerName, playerJob);
+                MenuManager.ShowMainMenu();
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        MenuManager.StartNewGame(ref loading);
+                        break;
+                    case "2":
+                        MenuManager.LoadGame(ref loading);
+                        break;
+                    case "3":
+                        MenuManager.ExitGame();
+                        return;
+                    default:
+                        Console.WriteLine("올바른 선택을 하지 않았습니다. 다시 시도해주세요.");
+                        break;
+                }
             }
-
-            User player = new User(playerName, playerJob);
-            Utility.ShowLoading("", 60, ref loading);
-
-            Console.WriteLine($"안녕하세요, {player.Name}님! 모험을 시작합니다.\n");
-
-            /////////////////////////////////////////////STEP 1 : 캐릭터 생성 완료/////////////////////////////////////////////
-
-            player.DisplayStats();
-
-            string filePath = "events.json";
-            EventManager.RunMainQuest(player, filePath);
         }
     }
 }
