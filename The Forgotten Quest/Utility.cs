@@ -1,5 +1,6 @@
 ﻿using System.Reflection.Emit;
 using System.Xml.Linq;
+using TheForgottenQuest.Events;
 using TheForgottenQuest.User;
 
 namespace TheForgottenQuest
@@ -120,6 +121,26 @@ namespace TheForgottenQuest
             Console.WriteLine($"    {"MP:",-5} {player.MP}");
             Console.WriteLine($"    {"LUK:",-5} {player.LUK}");
             Console.WriteLine("=======================================================");
+        }
+
+        public static Result DisplayRollResult(Event gameEvent, string choice)
+        {
+            int roll = random.Next(1, 101);
+            Result result;
+
+            if (roll > 50)
+            {
+                result = gameEvent.PositiveResults[choice];
+            }
+            else
+            {
+                result = gameEvent.NegativeResults[choice];
+            }
+            SlowType($"Dice: {roll}\n{result.Message}");
+            Console.WriteLine("다음으로 이동...");
+            Console.ReadLine();
+
+            return result;
         }
     }
 }

@@ -53,7 +53,7 @@ namespace TheForgottenQuest.Events
             }
         }
 
-        private static int RunMainEvent(List<Event> eventList, int currentEventId, User.UserDTO player)
+        private static int RunMainEvent(List<Event> eventList, int currentEventId, UserDTO player)
         {
             var gameEvent = eventList.Find(e => e.Id == currentEventId);
 
@@ -64,7 +64,7 @@ namespace TheForgottenQuest.Events
             }
 
             Utility.SlowType(gameEvent.Question);
-            Console.Write("어느 길로 갈까요? (1 또는 2 입력): ");
+            Console.Write("어느 선택을 할까요? (1 또는 2 입력): ");
             string choice = Console.ReadLine();
             while (choice == null || (!gameEvent.PositiveResults.ContainsKey(choice) && !gameEvent.NegativeResults.ContainsKey(choice)))
             {
@@ -86,11 +86,13 @@ namespace TheForgottenQuest.Events
 
             Utility.SlowType($"Dice: {roll}\n{result.Message}\n");
             EventResultApplier.ApplyResult(player, result);
+            Console.WriteLine("다음으로 이동...");
+            Console.ReadLine();
 
             return gameEvent.NextEventId ?? -1;
         }
 
-        private static void RunSubEvent(List<Event> eventList, User.UserDTO player)
+        private static void RunSubEvent(List<Event> eventList, UserDTO player)
         {
             if (eventList == null || eventList.Count == 0)
             {
@@ -110,6 +112,7 @@ namespace TheForgottenQuest.Events
                 choice = Console.ReadLine();
             }
 
+            // Result result = Utility.DisplayRollResult(gameEvent, choice); 아래내용대체되는지검증
             int roll = random.Next(1, 101);
             Result result;
 
@@ -123,9 +126,10 @@ namespace TheForgottenQuest.Events
             }
 
             Utility.SlowType($"Dice: {roll}\n{result.Message}");
-            EventResultApplier.ApplyResult(player, result);
             Console.WriteLine("다음으로 이동...");
             Console.ReadLine();
+            
+            EventResultApplier.ApplyResult(player, result);
         }
 
         public static void EndGame()
