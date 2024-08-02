@@ -4,7 +4,7 @@ namespace TheForgottenQuest.User
 {
     public static class UserLoader
     {
-        public static List<User> LoadUsers(string filePath)
+        public static List<UserDTO> LoadUsers(string filePath)
         {
             if (!File.Exists(filePath))
             {
@@ -12,7 +12,7 @@ namespace TheForgottenQuest.User
             }
 
             string json = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<List<User>>(json);
+            return JsonConvert.DeserializeObject<List<UserDTO>>(json);
         }
     }
 }

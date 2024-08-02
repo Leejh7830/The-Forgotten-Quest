@@ -1,5 +1,4 @@
-﻿using The_Forgotten_Quest;
-using TheForgottenQuest.Menu;
+﻿using TheForgottenQuest.Menu;
 
 namespace TheForgottenQuest
 {
@@ -7,9 +6,11 @@ namespace TheForgottenQuest
     {
         static void Main(string[] args)
         {
+            Console.WindowWidth = 100;
+
             // bool loading = true;
             bool loading = false;
-            Utility.ShowLoading("", 100, ref loading);
+            // Utility.ShowLoading("", 100, ref loading);
 
             while (true)
             {
@@ -27,7 +28,7 @@ namespace TheForgottenQuest
                         MenuManager.ExitGame();
                         return;
                     default:
-                        Console.WriteLine("올바른 선택을 하지 않았습니다. 다시 시도해주세요.");
+                        Utility.SlowType("올바른 선택을 하지 않았습니다. 다시 시도해주세요.");
                         break;
                 }
             }

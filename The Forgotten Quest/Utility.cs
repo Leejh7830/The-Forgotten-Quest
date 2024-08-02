@@ -1,6 +1,6 @@
 ﻿using TheForgottenQuest.User;
 
-namespace The_Forgotten_Quest
+namespace TheForgottenQuest
 {
     public static class Utility
     {
@@ -19,7 +19,7 @@ namespace The_Forgotten_Quest
                 Console.Write("=");
             }
 
-            Console.WriteLine("]");
+            SlowType("]");
             Thread.Sleep(200);
             if (loading)
             {
@@ -44,7 +44,7 @@ namespace The_Forgotten_Quest
                 "        foreach (int number in numbers)",
                 "            if (number % 2 == 0)",
                 "            {",
-                "                Console.WriteLine(number);",
+                "                Utility.SlowType(number);",
                 "    pic int Finci(int n)",
                 "        if (n <= 1) return n;",
                 "        return Fibonacci(n - 1) + Fiboi(n - 2);",
@@ -61,7 +61,7 @@ namespace The_Forgotten_Quest
                 "    lic async Task ProcessDataAsync()",
                 "    {",
                 "        string data = await GetDataAsync(\"https://example.com\");",
-                "        Console.WriteLine(data);",
+                "        Utility.SlowType(data);",
                 "    ic async Task<List<string>> FetchMultipleDataAsync(List<string> urls)",
                 "    {",
                 "        var tasks = urls.Select(url => GetDataAsync(url));",
@@ -70,29 +70,39 @@ namespace The_Forgotten_Quest
                 "       public void ComplexOperation()",
                 "        for (int i = 0; i < 10; i++)",
                 "            Parallel.For(0, 100, (j) =>",
-                "                Console.WriteLine($\"Operation {i}, iteration {j}\");",
+                "                Utility.SlowType($\"Operation {i}, iteration {j}\");",
                 "    c async Task ComputeDataAsync()",
                 "    {",
                 "        var data = await GetDataAsync(\"https://api.example.com/data\");",
                 "        var processed = data.Split('\\n').Select(line => line.Trim()).ToList();",
-                "        processed.ForEach(line => Console.WriteLine(line));",
+                "        processed.ForEach(line => Utility.SlowType(line));",
             };
 
             for (int i = 0; i < lines; i++)
             {
-                Console.WriteLine(codeLines[random.Next(codeLines.Length)]);
+                Utility.SlowType(codeLines[random.Next(codeLines.Length)]);
                 Thread.Sleep(3); // 각 줄 출력 후 약간의 지연 시간
             }
         }
 
-        private static void SaveGame(List<User> players)
+        private static void SaveGame(List<UserDTO> players)///////////////////////////////////////////////
         {
             string saveFilePath = "players.json";
             UserSaver.SaveUsers(players, saveFilePath);
-            Console.WriteLine("게임이 저장되었습니다.");
-            Console.WriteLine("계속하려면 아무 키나 누르세요...");
+            SlowType("게임이 저장되었습니다.");
+            SlowType("계속하려면 아무 키나 누르세요...");
             Console.ReadKey(true); // 키 입력 대기
         }
 
+        public static void SlowType(string message)
+        {
+            foreach (char c in message)
+            {
+                Console.Write(c);
+                Thread.Sleep(30); // 각 글자 출력 후 지연
+            }
+            Console.WriteLine();// 줄바꿈
+            Thread.Sleep(200); // 문장 완료 후 추가 지연
+        }
     }
 }

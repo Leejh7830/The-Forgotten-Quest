@@ -1,6 +1,6 @@
 ﻿namespace TheForgottenQuest.User
 {
-    public class User
+    public class UserDTO
     {
         public Guid Id { get; set; } // 고유 ID
         public string Name { get; set; }
@@ -11,7 +11,7 @@
         public int MP { get; set; }
         public int LUK { get; set; }
 
-        public User(string name, string job)
+        public UserDTO(string name, string job)
         {
             Id = Guid.NewGuid(); // 새로운 고유 ID 생성
             Name = name;

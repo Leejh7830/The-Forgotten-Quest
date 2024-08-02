@@ -1,6 +1,6 @@
-﻿using The_Forgotten_Quest;
-using TheForgottenQuest.Events;
+﻿using TheForgottenQuest.Events;
 using TheForgottenQuest.User;
+
 
 namespace TheForgottenQuest.Menu
 {
@@ -9,7 +9,8 @@ namespace TheForgottenQuest.Menu
         public static void ShowMainMenu()
         {
             Console.Clear();
-            Console.WriteLine("===== The Forgotten Quest =====");
+            Utility.SlowType("======= The Forgotten Quest =======");
+            // Utility.SlowType("===== The Forgotten Quest =====");
             Console.WriteLine("1. 새로하기 (New)");
             Console.WriteLine("2. 이어하기 (Load)");
             Console.WriteLine("3. 종료 (Exit)");
@@ -19,12 +20,12 @@ namespace TheForgottenQuest.Menu
         public static void StartNewGame(ref bool loading)
         {
             Console.Clear();
-            Console.WriteLine("\n===== The Forgotten Quest =====\n");
+            Utility.SlowType("\n===== The Forgotten Quest =====\n");
 
-            Console.WriteLine("모험 게임에 오신 것을 환영합니다!");
+            Utility.SlowType("모험 게임에 오신 것을 환영합니다!");
 
             string saveFilePath = "players.json";
-            List<User.User> AllPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<User.User>();
+            List<User.UserDTO> AllPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<User.UserDTO>();
 
             string NewPlayerName = UserSetup.GetName();
             string NewPlayerJob = UserSetup.GetJob();
@@ -36,17 +37,17 @@ namespace TheForgottenQuest.Menu
                 NewPlayerJob = UserSetup.GetJob();
                 confirmation = UserSetup.ConfirmSelection(NewPlayerName, NewPlayerJob);
             }
-            User.User NewPlayer = new User.User(NewPlayerName, NewPlayerJob);
+            User.UserDTO NewPlayer = new User.UserDTO(NewPlayerName, NewPlayerJob);
             AllPlayers.Add(NewPlayer);
             
             UserSaver.SaveUsers(AllPlayers, saveFilePath);
-            Console.WriteLine("캐릭터 정보가 저장되었습니다.");
+            Utility.SlowType("캐릭터 정보가 저장되었습니다.");
 
             
 
             Utility.ShowLoading("", 100, ref loading);
 
-            Console.WriteLine($"안녕하세요, {NewPlayer.Name}님! 모험을 시작합니다.\n");
+            Utility.SlowType($"안녕하세요, {NewPlayer.Name}님! 모험을 시작합니다.\n");
             NewPlayer.DisplayStats();
 
             string filePath = "events.json";
@@ -61,7 +62,7 @@ namespace TheForgottenQuest.Menu
 
             try
             {
-                List<User.User> loadedPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<User.User>();
+                List<User.UserDTO> loadedPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<User.UserDTO>();
 
                 if (loadedPlayers.Count == 0)
                 {
@@ -72,11 +73,12 @@ namespace TheForgottenQuest.Menu
                     return;
                 }
 
-                Console.WriteLine("저장된 캐릭터들:");
+                Utility.SlowType("저장된 캐릭터들:");
 
                 for (int i = 0; i < loadedPlayers.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {loadedPlayers[i].Name} (Level: {loadedPlayers[i].Level}, Job: {loadedPlayers[i].Job})\n");
+                    Thread.Sleep(500);
                 }
 
                 Console.Write("플레이할 캐릭터를 선택하세요: ");
@@ -88,8 +90,8 @@ namespace TheForgottenQuest.Menu
                     Console.Write("플레이할 캐릭터를 선택하세요: ");
                 }
 
-                User.User selectedPlayer = loadedPlayers[selectedCharacterIndex - 1];
-                Console.WriteLine($"선택된 캐릭터: {selectedPlayer.Name}");
+                User.UserDTO selectedPlayer = loadedPlayers[selectedCharacterIndex - 1];
+                Utility.SlowType($"선택된 캐릭터: {selectedPlayer.Name}");
                 selectedPlayer.DisplayStats();
 
                 string filePath = "events.json";
@@ -97,21 +99,21 @@ namespace TheForgottenQuest.Menu
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("저장된 게임이 없습니다. 메인 메뉴로 돌아갑니다.");
-                Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                Utility.SlowType("저장된 게임이 없습니다. 메인 메뉴로 돌아갑니다.");
+                Utility.SlowType("계속하려면 아무 키나 누르세요...");
                 Console.ReadKey(); // 사용자가 키를 입력할 때까지 대기
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"게임을 불러오는 중 오류가 발생했습니다: {ex.Message}");
-                Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                Utility.SlowType($"게임을 불러오는 중 오류가 발생했습니다: {ex.Message}");
+                Utility.SlowType("계속하려면 아무 키나 누르세요...");
                 Console.ReadKey(); // 사용자가 키를 입력할 때까지 대기
             }
         }
 
         public static void ExitGame()
         {
-            Console.WriteLine("게임을 종료합니다. 감사합니다!");
+            Utility.SlowType("게임을 종료합니다. 감사합니다!");
         }
     }
 }
