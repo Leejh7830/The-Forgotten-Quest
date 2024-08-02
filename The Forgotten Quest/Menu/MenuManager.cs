@@ -1,4 +1,5 @@
-﻿using TheForgottenQuest.Events;
+﻿using System.Numerics;
+using TheForgottenQuest.Events;
 using TheForgottenQuest.User;
 
 
@@ -25,7 +26,7 @@ namespace TheForgottenQuest.Menu
             Utility.SlowType("모험 게임에 오신 것을 환영합니다!");
 
             string saveFilePath = "players.json";
-            List<User.UserDTO> AllPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<User.UserDTO>();
+            List<UserDTO> AllPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<UserDTO>();
 
             string NewPlayerName = UserSetup.GetName();
             string NewPlayerJob = UserSetup.GetJob();
@@ -37,7 +38,7 @@ namespace TheForgottenQuest.Menu
                 NewPlayerJob = UserSetup.GetJob();
                 confirmation = UserSetup.ConfirmSelection(NewPlayerName, NewPlayerJob);
             }
-            User.UserDTO NewPlayer = new User.UserDTO(NewPlayerName, NewPlayerJob);
+            UserDTO NewPlayer = new UserDTO(NewPlayerName, NewPlayerJob);
             AllPlayers.Add(NewPlayer);
             
             UserSaver.SaveUsers(AllPlayers, saveFilePath);
@@ -48,7 +49,7 @@ namespace TheForgottenQuest.Menu
             Utility.ShowLoading("", 100, ref loading);
 
             Utility.SlowType($"안녕하세요, {NewPlayer.Name}님! 모험을 시작합니다.\n");
-            NewPlayer.DisplayStats();
+            Utility.DisplayStats(NewPlayer);
 
             string filePath = "events.json";
             EventManager.RunMainQuest(NewPlayer, filePath);
@@ -62,7 +63,7 @@ namespace TheForgottenQuest.Menu
 
             try
             {
-                List<User.UserDTO> loadedPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<User.UserDTO>();
+                List<UserDTO> loadedPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<UserDTO>();
 
                 if (loadedPlayers.Count == 0)
                 {
@@ -90,9 +91,10 @@ namespace TheForgottenQuest.Menu
                     Console.Write("플레이할 캐릭터를 선택하세요: ");
                 }
 
-                User.UserDTO selectedPlayer = loadedPlayers[selectedCharacterIndex - 1];
+                UserDTO selectedPlayer = loadedPlayers[selectedCharacterIndex - 1];
                 Utility.SlowType($"선택된 캐릭터: {selectedPlayer.Name}");
-                selectedPlayer.DisplayStats();
+                Utility.DisplayStats(selectedPlayer);
+                Thread.Sleep(2000);
 
                 string filePath = "events.json";
                 EventManager.RunMainQuest(selectedPlayer, filePath); // 선택한 캐릭터로 게임 시작

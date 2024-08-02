@@ -5,7 +5,7 @@ namespace TheForgottenQuest.Events
 {
     public static class EventResultApplier
     {
-        public static void ApplyResult(User.UserDTO player, Result result)
+        public static void ApplyResult(UserDTO player, Result result)
         {
             if (result.LevelChange != 0)
             {

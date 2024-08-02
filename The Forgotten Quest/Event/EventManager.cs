@@ -15,18 +15,20 @@ namespace TheForgottenQuest.Events
             events = EventLoader.LoadEvents(filePath);
         }
 
-        public static void RunMainQuest(User.UserDTO player, string filePath)
+        public static void RunMainQuest(UserDTO player, string filePath)
         {
             Initialize(filePath);
             while (currentMainQuestEventId > 0)
             {
+                Utility.DisplayStats(player);
                 var gameEvent = events.MainQuest.Find(e => e.Id == currentMainQuestEventId);
 
                 while (gameEvent != null && !EventConditionChecker.CheckCondition(gameEvent, player, out string failedCondition))
                 {
+                    Utility.DisplayStats(player);
                     Utility.SlowType("메인 퀘스트 조건이 충족되지 않았습니다. 일반 이벤트를 실행합니다.");
                     Utility.SlowType($"조건: {failedCondition}\n");
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     RunRandomSubEvent(player);
 
                     gameEvent = events.MainQuest.Find(e => e.Id == currentMainQuestEventId);
@@ -39,7 +41,7 @@ namespace TheForgottenQuest.Events
             RunRandomSubEvent(player);
         }
 
-        public static void RunRandomSubEvent(User.UserDTO player)
+        public static void RunRandomSubEvent(UserDTO player)
         {
             if (player.Level <= 20)
             {
@@ -120,8 +122,10 @@ namespace TheForgottenQuest.Events
                 result = gameEvent.NegativeResults[choice];
             }
 
-            Utility.SlowType($"Dice: {roll}\n{result.Message}\n");
+            Utility.SlowType($"Dice: {roll}\n{result.Message}");
             EventResultApplier.ApplyResult(player, result);
+            Console.WriteLine("다음으로 이동...");
+            Console.ReadLine();
         }
 
         public static void EndGame()

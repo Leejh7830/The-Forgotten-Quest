@@ -52,7 +52,8 @@
         }
         public void DisplayStats()
         {
-            Console.WriteLine("=================================================================");
+            Console.Clear();
+            Console.WriteLine("=======================================================");
             Console.WriteLine($"    {"ID:",-5} {Id}");
             Console.WriteLine($"    {"Name:",-5} {Name}");
             Console.WriteLine($"    {"Level:",-5} {Level}");
@@ -61,7 +62,7 @@
             Console.WriteLine($"    {"HP:",-5} {HP}");
             Console.WriteLine($"    {"MP:",-5} {MP}");
             Console.WriteLine($"    {"LUK:",-5} {LUK}");
-            Console.WriteLine("=================================================================");
+            Console.WriteLine("=======================================================");
         }
 
     }

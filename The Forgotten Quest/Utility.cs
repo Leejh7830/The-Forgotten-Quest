@@ -1,4 +1,6 @@
-﻿using TheForgottenQuest.User;
+﻿using System.Reflection.Emit;
+using System.Xml.Linq;
+using TheForgottenQuest.User;
 
 namespace TheForgottenQuest
 {
@@ -103,6 +105,21 @@ namespace TheForgottenQuest
             }
             Console.WriteLine();// 줄바꿈
             Thread.Sleep(200); // 문장 완료 후 추가 지연
+        }
+
+        public static void DisplayStats(UserDTO player)
+        {
+            Console.Clear();
+            Console.WriteLine("=======================================================");
+            Console.WriteLine($"    {"ID:",-5} {player.Id}");
+            Console.WriteLine($"    {"Name:",-5} {player.Name}");
+            Console.WriteLine($"    {"Level:",-5} {player.Level}");
+            Console.WriteLine($"    {"EXP:",-5} {player.EXP}");
+            Console.WriteLine($"    {"Job:",-5} {player.Job}");
+            Console.WriteLine($"    {"HP:",-5} {player.HP}");
+            Console.WriteLine($"    {"MP:",-5} {player.MP}");
+            Console.WriteLine($"    {"LUK:",-5} {player.LUK}");
+            Console.WriteLine("=======================================================");
         }
     }
 }
