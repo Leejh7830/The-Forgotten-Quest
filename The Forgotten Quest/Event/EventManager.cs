@@ -1,4 +1,4 @@
-﻿using TheForgottenQuest.Events;
+﻿  using TheForgottenQuest.Events;
 using TheForgottenQuest.User;
 
 namespace TheForgottenQuest.Events
@@ -22,22 +22,24 @@ namespace TheForgottenQuest.Events
             {
                 var gameEvent = events.MainQuest.Find(e => e.Id == currentMainQuestEventId);
 
-                if (gameEvent != null && !EventConditionChecker.CheckCondition(gameEvent, player, out string failedCondition))
+                while (gameEvent != null && !EventConditionChecker.CheckCondition(gameEvent, player, out string failedCondition))
                 {
+                    Console.WriteLine("=================================================================");
                     Console.WriteLine("메인 퀘스트 조건이 충족되지 않았습니다. 일반 이벤트를 실행합니다.");
-                    Console.WriteLine($"조건: {failedCondition}");
-                    RunRandomEvent(player);
-                    return;
+                    Console.WriteLine($"조건: {failedCondition}\n");
+                    RunRandomSubEvent(player);
+
+                    gameEvent = events.MainQuest.Find(e => e.Id == currentMainQuestEventId);
                 }
 
                 int nextEventId = RunMainEvent(events.MainQuest, currentMainQuestEventId, player);
                 currentMainQuestEventId = nextEventId;
             }
 
-            RunRandomEvent(player);
+            RunRandomSubEvent(player);
         }
 
-        public static void RunRandomEvent(User.User player)
+        public static void RunRandomSubEvent(User.User player)
         {
             if (player.Level <= 20)
             {
@@ -98,7 +100,7 @@ namespace TheForgottenQuest.Events
             var gameEvent = eventList[eventIndex];
 
             Console.WriteLine(gameEvent.Question);
-            Console.Write("어느 길로 갈까요? (1 또는 2 입력): ");
+            Console.Write("어느 선택을 할까요? (1 또는 2 입력): ");
             string choice = Console.ReadLine();
             while (choice == null || (!gameEvent.PositiveResults.ContainsKey(choice) && !gameEvent.NegativeResults.ContainsKey(choice)))
             {

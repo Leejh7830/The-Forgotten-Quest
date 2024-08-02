@@ -13,6 +13,12 @@ namespace TheForgottenQuest.Events
                 Console.WriteLine($"레벨이 {result.LevelChange}만큼 변경되었습니다. 현재 레벨: {player.Level}");
             }
 
+            if (result.EXPChange != 0)
+            {
+                player.EXP += result.EXPChange;
+                Console.WriteLine($"경험치가 {result.EXPChange}만큼 변경되었습니다. 현재 경험치: {player.EXP}");
+            }
+
             if (result.HPChange != 0)
             {
                 player.HP += result.HPChange;
