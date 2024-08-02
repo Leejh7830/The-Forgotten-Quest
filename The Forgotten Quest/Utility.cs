@@ -1,4 +1,5 @@
-﻿using System.Reflection.Emit;
+﻿using System.Numerics;
+using System.Reflection.Emit;
 using System.Xml.Linq;
 using TheForgottenQuest.Events;
 using TheForgottenQuest.User;
@@ -123,7 +124,7 @@ namespace TheForgottenQuest
             Console.WriteLine("=======================================================");
         }
 
-        public static Result DisplayRollResult(Event gameEvent, string choice)
+        public static Result DisplayRollResult(UserDTO player ,Event gameEvent, string choice)
         {
             int roll = random.Next(1, 101);
             Result result;
@@ -137,6 +138,7 @@ namespace TheForgottenQuest
                 result = gameEvent.NegativeResults[choice];
             }
             SlowType($"Dice: {roll}\n{result.Message}");
+            EventResultApplier.ApplyResult(player, result);
             Console.WriteLine("다음으로 이동...");
             Console.ReadLine();
 
