@@ -26,8 +26,8 @@ namespace TheForgottenQuest.Events
                 while (gameEvent != null && !EventConditionChecker.CheckCondition(gameEvent, player, out string failedCondition))
                 {
                     Utility.DisplayStats(player);
-                    Utility.SlowType("메인 퀘스트 조건이 충족되지 않았습니다. 일반 이벤트를 실행합니다.");
-                    Utility.SlowType($"조건: {failedCondition}\n");
+                    Console.WriteLine("메인 퀘스트 조건이 충족되지 않았습니다. 일반 이벤트를 실행합니다.");
+                    Console.WriteLine($"조건: {failedCondition}\n");
                     Thread.Sleep(500);
                     RunRandomSubEvent(player);
 

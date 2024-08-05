@@ -101,14 +101,14 @@ namespace TheForgottenQuest.Menu
             }
             catch (FileNotFoundException)
             {
-                Utility.SlowType("저장된 게임이 없습니다. 메인 메뉴로 돌아갑니다.");
-                Utility.SlowType("계속하려면 아무 키나 누르세요...");
+                Console.WriteLine("저장된 게임이 없습니다. 메인 메뉴로 돌아갑니다.");
+                Console.WriteLine("계속하려면 아무 키나 누르세요...");
                 Console.ReadKey(); // 사용자가 키를 입력할 때까지 대기
             }
             catch (Exception ex)
             {
-                Utility.SlowType($"게임을 불러오는 중 오류가 발생했습니다: {ex.Message}");
-                Utility.SlowType("계속하려면 아무 키나 누르세요...");
+                Console.WriteLine($"게임을 불러오는 중 오류가 발생했습니다: {ex.Message}");
+                Console.WriteLine("계속하려면 아무 키나 누르세요...");
                 Console.ReadKey(); // 사용자가 키를 입력할 때까지 대기
             }
         }

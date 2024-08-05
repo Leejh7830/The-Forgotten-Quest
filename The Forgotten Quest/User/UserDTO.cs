@@ -2,14 +2,16 @@
 {
     public class UserDTO
     {
-        public Guid Id { get; set; } // 고유 ID
+        public Guid Id { get; private set; }
         public string Name { get; set; }
-        public int Level { get; set; }
-        public int EXP { get; set; }
-        public string Job { get; set; }
-        public int HP { get; set; }
-        public int MP { get; set; }
-        public int LUK { get; set; }
+        public int Level { get; private set; }
+        public int EXP { get; private set; }
+        public string Job { get; private set; }
+        public int HP { get; private set; }
+        public int MaxHP { get; private set; }
+        public int MP { get; private set; }
+        public int MaxMP { get; private set; }
+        public int LUK { get; private set; }
 
         public UserDTO(string name, string job)
         {
@@ -49,7 +51,62 @@
                     LUK = 0;
                     break;
             }
+
+            // MaxHP와 MaxMP도 초기화
+            MaxHP = HP;
+            MaxMP = MP;
         }
+
+        public void AddExperience(int exp)
+        {
+            EXP += exp;
+            Utility.SlowType($"경험치가 {exp}만큼 추가되었습니다. 현재 경험치: {EXP}");
+            while (EXP >= 100)
+            {
+                EXP -= 100;
+                LevelUp();
+            }
+        }
+
+        private void LevelUp()
+        {
+            Level++;
+            Utility.SlowType($"{Name}의 레벨이 {Level}로 증가했습니다!");
+            MaxHP += 10;
+            MaxMP += 5;
+            RestoreFullHP();
+            RestoreFullMP();
+        }
+
+
+        public void ChangeHP(int amount)
+        {
+            HP = Math.Clamp(HP + amount, 0, MaxHP);
+            Utility.SlowType($"HP가 {amount}만큼 변경되었습니다. 현재 HP: {HP}/{MaxHP}");
+        }
+
+        public void ChangeMP(int amount)
+        {
+            MP = Math.Clamp(MP + amount, 0, MaxMP);
+            Utility.SlowType($"MP가 {amount}만큼 변경되었습니다. 현재 MP: {MP}/{MaxMP}");
+        }
+
+        public void ChangeLUK(int amount)
+        {
+            LUK += amount;
+            Utility.SlowType($"운이 {amount}만큼 변경되었습니다. 현재 운: {LUK}");
+        }
+
+        private void RestoreFullHP()
+        {
+            HP = MaxHP;
+        }
+
+        private void RestoreFullMP()
+        {
+            MP = MaxMP;
+        }
+
         public void DisplayStats()
         {
             Console.Clear();

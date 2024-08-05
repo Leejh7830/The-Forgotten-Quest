@@ -115,11 +115,11 @@ namespace TheForgottenQuest
             Console.WriteLine("=======================================================");
             Console.WriteLine($"    {"ID:",-5} {player.Id}");
             Console.WriteLine($"    {"Name:",-5} {player.Name}");
-            Console.WriteLine($"    {"Level:",-5} {player.Level}");
-            Console.WriteLine($"    {"EXP:",-5} {player.EXP}");
             Console.WriteLine($"    {"Job:",-5} {player.Job}");
-            Console.WriteLine($"    {"HP:",-5} {player.HP}");
-            Console.WriteLine($"    {"MP:",-5} {player.MP}");
+            Console.WriteLine($"    {"Level:",-5} {player.Level}");
+            Console.WriteLine($"    {"EXP:",-5} {player.EXP} / 100");
+            Console.WriteLine($"    {"HP:",-5} {player.HP} / {player.MaxHP}");
+            Console.WriteLine($"    {"MP:",-5} {player.MP} / {player.MaxMP}");
             Console.WriteLine($"    {"LUK:",-5} {player.LUK}");
             Console.WriteLine("=======================================================");
         }
