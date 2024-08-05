@@ -6,6 +6,7 @@ namespace TheForgottenQuest.Events
     {
         public static void ApplyResult(UserDTO player, Result result)
         {
+            // 바로 레벨업 할 때 경험치+100
             if (result.LevelChange != 0)
             {
                 for (int i = 0; i < result.LevelChange; i++)

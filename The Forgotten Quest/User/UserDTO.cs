@@ -1,4 +1,6 @@
-﻿namespace TheForgottenQuest.User
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace TheForgottenQuest.User
 {
     public class UserDTO
     {
@@ -12,6 +14,8 @@
         public int MP { get; private set; }
         public int MaxMP { get; private set; }
         public int LUK { get; private set; }
+        public bool IsAlive { get; private set; } = true; // 생존 여부, 현재는 불필요함
+
 
         public UserDTO(string name, string job)
         {
@@ -73,9 +77,23 @@
             Level++;
             Utility.SlowType($"{Name}의 레벨이 {Level}로 증가했습니다!");
             MaxHP += 10;
+            Utility.SlowType("MaxHP가 10 증가했습니다.");
             MaxMP += 5;
+            Utility.SlowType("MaxMP가 5 증가했습니다.");
             RestoreFullHP();
             RestoreFullMP();
+            Utility.SlowType("HP / MP 회복되었습니다.");
+        }
+
+        private void CheckDeath()
+        {
+            if (HP <= 0)
+            {
+                IsAlive = false;
+                Utility.SlowType($"{Name}이(가) 사망하였습니다. GAME OVER...");
+                
+                Utility.GameOver();
+            }
         }
 
 
@@ -83,6 +101,7 @@
         {
             HP = Math.Clamp(HP + amount, 0, MaxHP);
             Utility.SlowType($"HP가 {amount}만큼 변경되었습니다. 현재 HP: {HP}/{MaxHP}");
+            CheckDeath();
         }
 
         public void ChangeMP(int amount)

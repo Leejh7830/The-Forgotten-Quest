@@ -2,6 +2,7 @@
 using System.Reflection.Emit;
 using System.Xml.Linq;
 using TheForgottenQuest.Events;
+using TheForgottenQuest.Menu;
 using TheForgottenQuest.User;
 
 namespace TheForgottenQuest
@@ -143,6 +144,16 @@ namespace TheForgottenQuest
             Console.ReadLine();
 
             return result;
+        }
+
+        public static void GameOver()
+        {
+            // 게임 오버 로직 구현
+            Console.WriteLine("게임 오버!");
+            Console.WriteLine("메인 메뉴로 돌아갑니다...");
+            Console.ReadKey(); // 사용자 입력 대기
+
+            MenuManager.ShowMainMenu();
         }
     }
 }
