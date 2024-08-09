@@ -91,7 +91,7 @@ namespace TheForgottenQuest.Events
 
             return gameEvent.NextEventId ?? -1;
         }
-
+         
         private static void RunSubEvent(List<Event> eventList, UserDTO player)
         {
             if (eventList == null || eventList.Count == 0)
