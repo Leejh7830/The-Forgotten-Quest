@@ -99,7 +99,7 @@ namespace TheForgottenQuest.Events
                 Utility.SlowType("올바른 이벤트를 찾을 수 없습니다.");
                 return;
             }
-
+            // 랜덤이벤트 선택
             int eventIndex = random.Next(eventList.Count);
             var gameEvent = eventList[eventIndex];
 

@@ -6,20 +6,13 @@ namespace TheForgottenQuest.Events
     {
         public static void ApplyResult(UserDTO player, Result result)
         {
-            // 바로 레벨업 할 때 경험치+100
-            if (result.LevelChange != 0)
-            {
-                for (int i = 0; i < result.LevelChange; i++)
-                {
-                    player.AddExperience(100);
-                }
-            }
-
+            // 경험치 변화 적용
             if (result.EXPChange != 0)
             {
                 player.AddExperience(result.EXPChange);
             }
 
+            // HP, MP, LUK 변화 적용
             if (result.HPChange != 0)
             {
                 player.ChangeHP(result.HPChange);
@@ -34,6 +27,16 @@ namespace TheForgottenQuest.Events
             {
                 player.ChangeLUK(result.LUKChange);
             }
+
+            // 레벨 변화에 따른 경험치 적용 및 레벨업
+            if (result.LevelChange != 0)
+            {
+                for (int i = 0; i < result.LevelChange; i++)
+                {
+                    player.AddExperience(100); // 레벨업 시 경험치 100을 추가하여 레벨업 처리
+                }
+            }
         }
+
     }
 }
