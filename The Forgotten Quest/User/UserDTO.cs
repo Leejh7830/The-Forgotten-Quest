@@ -64,7 +64,7 @@ namespace TheForgottenQuest.User
         public void AddExperience(int exp)
         {
             EXP += exp;
-            Utility.SlowType($"경험치가 {exp}만큼 추가되었습니다. 현재 경험치: {EXP}");
+            Utility.SlowType($"경험치를 {exp} 얻었습니다. 현재 경험치: {EXP}");
             while (EXP >= 100)
             {
                 EXP -= 100;

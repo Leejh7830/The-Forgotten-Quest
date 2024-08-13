@@ -1,17 +1,21 @@
-﻿using System.Numerics;
+﻿using Microsoft.VisualBasic;
+using System.Numerics;
 using TheForgottenQuest.Events;
 using TheForgottenQuest.User;
+using The_Forgotten_Quest;
 
 
 namespace TheForgottenQuest.Menu
 {
     public static class MenuManager
     {
+        static readonly string PlayerFilePath = JsonConstants.PlayerFilePath;
+        static readonly string EventFilePath = JsonConstants.EvnetFilePath;
+
         public static void ShowMainMenu()
         {
             Console.Clear();
             Utility.SlowType("======= The Forgotten Quest =======");
-            // Utility.SlowType("===== The Forgotten Quest =====");
             Console.WriteLine("1. 새로하기 (New)");
             Console.WriteLine("2. 이어하기 (Load)");
             Console.WriteLine("3. 종료 (Exit)");
@@ -25,8 +29,8 @@ namespace TheForgottenQuest.Menu
 
             Utility.SlowType("모험 게임에 오신 것을 환영합니다!");
 
-            string saveFilePath = "players.json";
-            List<UserDTO> AllPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<UserDTO>();
+            //string saveFilePath = "players.json";
+            List<UserDTO> AllPlayers = UserLoader.LoadUsers(PlayerFilePath) ?? new List<UserDTO>();
 
             string NewPlayerName = UserSetup.GetName();
             string NewPlayerJob = UserSetup.GetJob();
@@ -41,7 +45,7 @@ namespace TheForgottenQuest.Menu
             UserDTO NewPlayer = new UserDTO(NewPlayerName, NewPlayerJob);
             AllPlayers.Add(NewPlayer);
             
-            UserSaver.SaveUsers(AllPlayers, saveFilePath);
+            UserSaver.SaveUsers(AllPlayers, PlayerFilePath);
             Utility.SlowType("캐릭터 정보가 저장되었습니다.");
 
             
@@ -51,19 +55,20 @@ namespace TheForgottenQuest.Menu
             Utility.SlowType($"안녕하세요, {NewPlayer.Name}님! 모험을 시작합니다.\n");
             Utility.DisplayStats(NewPlayer);
 
-            string filePath = "events.json";
-            EventManager.RunMainQuest(NewPlayer, filePath);
+            //string filePath = "events.json";
+            EventManager.RunMainQuest(NewPlayer, EventFilePath);
         }
 
 
         public static void LoadGame(ref bool loading)
         {
             Console.Clear();
-            string saveFilePath = "players.json";
+            //string PlayerFilePath = JsonConstants.PlayerFilePath;
+            //string EventFilePath = JsonConstants.EvnetFilePath;
 
             try
             {
-                List<UserDTO> loadedPlayers = UserLoader.LoadUsers(saveFilePath) ?? new List<UserDTO>();
+                List<UserDTO> loadedPlayers = UserLoader.LoadUsers(PlayerFilePath) ?? new List<UserDTO>();
 
                 if (loadedPlayers.Count == 0)
                 {
@@ -96,8 +101,7 @@ namespace TheForgottenQuest.Menu
                 Utility.DisplayStats(selectedPlayer);
                 Thread.Sleep(2000);
 
-                string filePath = "events.json";
-                EventManager.RunMainQuest(selectedPlayer, filePath); // 선택한 캐릭터로 게임 시작
+                EventManager.RunMainQuest(selectedPlayer, EventFilePath); // 선택한 캐릭터로 게임 시작
             }
             catch (FileNotFoundException)
             {

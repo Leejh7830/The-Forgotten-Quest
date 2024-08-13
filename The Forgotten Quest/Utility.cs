@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Reflection.Emit;
 using System.Xml.Linq;
 using TheForgottenQuest.Events;
@@ -90,21 +91,36 @@ namespace TheForgottenQuest
             }
         }
 
-        private static void SaveGame(List<UserDTO> players)///////////////////////////////////////////////
+
+        // 진행중인 Player 저장
+        public static void SavePlayer(UserDTO currentPlayer, string filePath)
         {
-            string saveFilePath = "players.json";
-            UserSaver.SaveUsers(players, saveFilePath);
-            SlowType("게임이 저장되었습니다.");
-            SlowType("계속하려면 아무 키나 누르세요...");
-            Console.ReadKey(true); // 키 입력 대기
+            List<UserDTO> allPlayers = UserLoader.LoadUsers(filePath);
+
+            // 현재 플레이어의 정보를 갱신
+            for (int i = 0; i < allPlayers.Count; i++)
+            {
+                if (allPlayers[i].Id == currentPlayer.Id)
+                {
+                    allPlayers[i] = currentPlayer;
+                    break;
+                }
+            }
+
+            // 모든 플레이어 데이터를 다시 저장
+            UserSaver.SaveUsers(allPlayers, filePath);
+            Console.WriteLine("플레이어 정보가 저장되었습니다.");
+            Console.WriteLine("계속하려면 아무 키나 누르세요...");
+            Console.ReadLine();
         }
+
 
         public static void SlowType(string message)
         {
             foreach (char c in message)
             {
                 Console.Write(c);
-                Thread.Sleep(30); // 각 글자 출력 후 지연
+                Thread.Sleep(20); // 각 글자 출력 후 지연
             }
             Console.WriteLine();// 줄바꿈
             Thread.Sleep(200); // 문장 완료 후 추가 지연

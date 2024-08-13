@@ -1,4 +1,5 @@
-﻿  using TheForgottenQuest.Events;
+﻿using The_Forgotten_Quest;
+using TheForgottenQuest.Events;
 using TheForgottenQuest.User;
 
 namespace TheForgottenQuest.Events
@@ -99,6 +100,7 @@ namespace TheForgottenQuest.Events
                 Utility.SlowType("올바른 이벤트를 찾을 수 없습니다.");
                 return;
             }
+
             // 랜덤이벤트 선택
             int eventIndex = random.Next(eventList.Count);
             var gameEvent = eventList[eventIndex];
@@ -106,6 +108,7 @@ namespace TheForgottenQuest.Events
             Utility.SlowType(gameEvent.Question);
             Utility.SlowType("어느 선택을 할까요? (1 또는 2 입력): ");
             string choice = Console.ReadLine();
+
             while (choice == null || (!gameEvent.PositiveResults.ContainsKey(choice) && !gameEvent.NegativeResults.ContainsKey(choice)))
             {
                 Utility.SlowType("올바른 선택을 하지 않았습니다. 1 또는 2 중 하나를 선택하세요.");
@@ -113,6 +116,13 @@ namespace TheForgottenQuest.Events
             }
 
             Result result = Utility.DisplayRollResult(player, gameEvent, choice);
+
+            // 세이브 이벤트 처리
+            if (choice == "1" && result.SaveGame)
+            {
+                Utility.SavePlayer(player, JsonConstants.PlayerFilePath);
+                Utility.SlowType("게임이 저장되었습니다. 계속 진행합니다...");
+            }
         }
 
         public static void EndGame()
