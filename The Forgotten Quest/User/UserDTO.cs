@@ -1,14 +1,14 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using Newtonsoft.Json;
 
 namespace TheForgottenQuest.User
 {
     public class UserDTO
     {
         public Guid Id { get; private set; }
-        public string Name { get; set; }
+        public string Name { get; private set; }
+        public string Job { get; private set; }
         public int Level { get; private set; }
         public int EXP { get; private set; }
-        public string Job { get; private set; }
         public int HP { get; private set; }
         public int MaxHP { get; private set; }
         public int MP { get; private set; }
@@ -17,9 +17,10 @@ namespace TheForgottenQuest.User
         public bool IsAlive { get; private set; } = true; // 생존 여부, 현재는 불필요함
 
 
+        // 새로운 플레이어 생성자 (고유ID 생성)
         public UserDTO(string name, string job)
         {
-            Id = Guid.NewGuid(); // 새로운 고유 ID 생성
+            Id = Guid.NewGuid(); // 새로운 ID 생성
             Name = name;
             Level = 1;
             EXP = 0;
@@ -27,6 +28,36 @@ namespace TheForgottenQuest.User
             SetStats(job);
         }
 
+        // JSON 역직렬화를 위한 생성자
+        [JsonConstructor]
+        public UserDTO(Guid id, string name, string job, int level, int exp, int hp, int maxHp, int mp, int maxMp, int luk, bool isAlive)
+        {
+            Id = id;
+            Name = name;
+            Job = job;
+            Level = level;
+            EXP = exp;
+            HP = hp;
+            MaxHP = maxHp;
+            MP = mp;
+            MaxMP = maxMp;
+            LUK = luk;
+            IsAlive = isAlive;
+        }
+
+        // 기존 플레이어 생성자
+        public UserDTO(UserDTO existingUser)
+        {
+            Id = existingUser.Id;
+            Name = existingUser.Name;
+            Level = existingUser.Level;
+            EXP = existingUser.EXP;
+            Job = existingUser.Job;
+            HP = existingUser.HP;
+            MP = existingUser.MP;
+            LUK = existingUser.LUK;
+        }  
+        
         private void SetStats(string job)
         {
             switch (job.ToLower())

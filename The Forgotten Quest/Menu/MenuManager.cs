@@ -29,7 +29,6 @@ namespace TheForgottenQuest.Menu
 
             Utility.SlowType("모험 게임에 오신 것을 환영합니다!");
 
-            //string saveFilePath = "players.json";
             List<UserDTO> AllPlayers = UserLoader.LoadUsers(PlayerFilePath) ?? new List<UserDTO>();
 
             string NewPlayerName = UserSetup.GetName();
@@ -55,7 +54,6 @@ namespace TheForgottenQuest.Menu
             Utility.SlowType($"안녕하세요, {NewPlayer.Name}님! 모험을 시작합니다.\n");
             Utility.DisplayStats(NewPlayer);
 
-            //string filePath = "events.json";
             EventManager.RunMainQuest(NewPlayer, EventFilePath);
         }
 
@@ -63,8 +61,6 @@ namespace TheForgottenQuest.Menu
         public static void LoadGame(ref bool loading)
         {
             Console.Clear();
-            //string PlayerFilePath = JsonConstants.PlayerFilePath;
-            //string EventFilePath = JsonConstants.EvnetFilePath;
 
             try
             {
