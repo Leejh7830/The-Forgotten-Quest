@@ -21,11 +21,13 @@ namespace TheForgottenQuest.Events
             Initialize(filePath);
             while (currentMainQuestEventId > 0)
             {
+                Console.Clear();
                 Utility.DisplayStats(player);
                 var gameEvent = events.MainQuest.Find(e => e.Id == currentMainQuestEventId);
 
                 while (gameEvent != null && !EventConditionChecker.CheckCondition(gameEvent, player, out string failedCondition))
                 {
+                    Console.Clear();
                     Utility.DisplayStats(player);
                     Console.WriteLine("메인 퀘스트 조건이 충족되지 않았습니다. 일반 이벤트를 실행합니다.");
                     Console.WriteLine($"조건: {failedCondition}\n");
@@ -120,14 +122,8 @@ namespace TheForgottenQuest.Events
             // 세이브 이벤트 처리
             if (choice == "1" && result.SaveGame)
             {
-                Utility.SavePlayer(player, JsonConstants.PlayerFilePath);
-                Utility.SlowType("게임이 저장되었습니다. 계속 진행합니다...");
+                Utility.SavePlayer(player, JsonConstants.PlayerFilePath); // 저장
             }
-        }
-
-        public static void EndGame()
-        {
-            Utility.SlowType("모험을 종료합니다. 감사합니다!");
         }
     }
 }

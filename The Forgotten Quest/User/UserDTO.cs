@@ -28,7 +28,7 @@ namespace TheForgottenQuest.User
             SetStats(job);
         }
 
-        // JSON 역직렬화를 위한 생성자
+        // JSON 역직렬화를 위한 생성자, Load 할 때 사용
         [JsonConstructor]
         public UserDTO(Guid id, string name, string job, int level, int exp, int hp, int maxHp, int mp, int maxMp, int luk, bool isAlive)
         {
@@ -45,7 +45,8 @@ namespace TheForgottenQuest.User
             IsAlive = isAlive;
         }
 
-        // 기존 플레이어 생성자
+        /*
+        // 기존 플레이어 생성자, 현재 미사용
         public UserDTO(UserDTO existingUser)
         {
             Id = existingUser.Id;
@@ -57,6 +58,7 @@ namespace TheForgottenQuest.User
             MP = existingUser.MP;
             LUK = existingUser.LUK;
         }  
+        */
         
         private void SetStats(string job)
         {
@@ -86,7 +88,6 @@ namespace TheForgottenQuest.User
                     LUK = 0;
                     break;
             }
-
             // MaxHP와 MaxMP도 초기화
             MaxHP = HP;
             MaxMP = MP;
@@ -156,21 +157,5 @@ namespace TheForgottenQuest.User
         {
             MP = MaxMP;
         }
-
-        public void DisplayStats()
-        {
-            Console.Clear();
-            Console.WriteLine("=======================================================");
-            Console.WriteLine($"    {"ID:",-5} {Id}");
-            Console.WriteLine($"    {"Name:",-5} {Name}");
-            Console.WriteLine($"    {"Level:",-5} {Level}");
-            Console.WriteLine($"    {"EXP:",-5} {EXP}");
-            Console.WriteLine($"    {"Job:",-5} {Job}");
-            Console.WriteLine($"    {"HP:",-5} {HP}");
-            Console.WriteLine($"    {"MP:",-5} {MP}");
-            Console.WriteLine($"    {"LUK:",-5} {LUK}");
-            Console.WriteLine("=======================================================");
-        }
-
     }
 }

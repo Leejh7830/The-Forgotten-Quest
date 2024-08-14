@@ -109,9 +109,6 @@ namespace TheForgottenQuest
 
             // 모든 플레이어 데이터를 다시 저장
             UserSaver.SaveUsers(allPlayers, filePath);
-            Console.WriteLine("플레이어 정보가 저장되었습니다.");
-            Console.WriteLine("계속하려면 아무 키나 누르세요...");
-            Console.ReadLine();
         }
 
 
@@ -128,7 +125,6 @@ namespace TheForgottenQuest
 
         public static void DisplayStats(UserDTO player)
         {
-            Console.Clear();
             Console.WriteLine("=======================================================");
             Console.WriteLine($"    {"ID:",-5} {player.Id}");
             Console.WriteLine($"    {"Name:",-5} {player.Name}");

@@ -52,6 +52,7 @@ namespace TheForgottenQuest.Menu
             Utility.ShowLoading("", 100, ref loading);
 
             Utility.SlowType($"안녕하세요, {NewPlayer.Name}님! 모험을 시작합니다.\n");
+            Console.Clear();
             Utility.DisplayStats(NewPlayer);
 
             EventManager.RunMainQuest(NewPlayer, EventFilePath);
@@ -94,6 +95,7 @@ namespace TheForgottenQuest.Menu
 
                 UserDTO selectedPlayer = loadedPlayers[selectedCharacterIndex - 1];
                 Utility.SlowType($"선택된 캐릭터: {selectedPlayer.Name}");
+                Console.Clear();
                 Utility.DisplayStats(selectedPlayer);
                 Thread.Sleep(2000);
 
