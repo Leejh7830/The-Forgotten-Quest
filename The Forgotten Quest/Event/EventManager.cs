@@ -19,7 +19,7 @@ namespace TheForgottenQuest.Events
         public static void RunMainQuest(UserDTO player, string filePath)
         {
             Initialize(filePath);
-            while (currentMainQuestEventId > 0)
+            while (currentMainQuestEventId > 0) 
             {
                 Console.Clear();
                 Utility.DisplayStats(player);
