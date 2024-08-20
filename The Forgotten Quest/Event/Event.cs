@@ -3,7 +3,7 @@ namespace TheForgottenQuest.Events
 {
     public class Event
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Question { get; set; } = string.Empty;
         public Dictionary<string, Result> PositiveResults { get; set; } = new Dictionary<string, Result>();
         public Dictionary<string, Result> NegativeResults { get; set; } = new Dictionary<string, Result>();

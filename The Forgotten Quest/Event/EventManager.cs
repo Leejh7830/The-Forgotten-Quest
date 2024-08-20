@@ -9,7 +9,7 @@ namespace TheForgottenQuest.Events
     {
         private static Random random = new Random();
         private static EventSet events = new EventSet();
-        private static int currentMainQuestEventId = 1; // 메인 퀘스트 시작 ID
+        private static string currentMainQuestEventId = "1"; // 메인 퀘스트 시작 ID
 
         public static void Initialize(string filePath)
         {
@@ -19,11 +19,11 @@ namespace TheForgottenQuest.Events
         public static void RunMainQuest(UserDTO player, string filePath)
         {
             Initialize(filePath);
-            while (currentMainQuestEventId > 0) 
+            while (!string.IsNullOrEmpty(currentMainQuestEventId))
             {
                 Console.Clear();
                 Utility.DisplayStats(player);
-                var gameEvent = events.MainQuest.Find(e => e.Id == currentMainQuestEventId);
+                var gameEvent = events.MainQuest.Find(e => e.Id.ToString() == currentMainQuestEventId);
 
                 while (gameEvent != null && !EventConditionChecker.CheckCondition(gameEvent, player, out string failedCondition))
                 {
@@ -34,15 +34,16 @@ namespace TheForgottenQuest.Events
                     Thread.Sleep(500);
                     RunRandomSubEvent(player);
 
-                    gameEvent = events.MainQuest.Find(e => e.Id == currentMainQuestEventId);
+                    gameEvent = events.MainQuest.Find(e => e.Id.ToString() == currentMainQuestEventId);
                 }
 
-                int nextEventId = RunMainEvent(events.MainQuest, currentMainQuestEventId, player);
+                string nextEventId = RunMainEvent(events.MainQuest, currentMainQuestEventId, player);
                 currentMainQuestEventId = nextEventId;
             }
 
             RunRandomSubEvent(player);
         }
+
 
         public static void RunRandomSubEvent(UserDTO player)
         {
@@ -56,17 +57,19 @@ namespace TheForgottenQuest.Events
             }
         }
 
-        private static int RunMainEvent(List<Event> eventList, int currentEventId, UserDTO player)
+        private static string? RunMainEvent(List<Event> eventList, string currentEventId, UserDTO player)
         {
-            var gameEvent = eventList.Find(e => e.Id == currentEventId);
+            var gameEvent = eventList.Find(e => e.Id.ToString() == currentEventId);
 
             if (gameEvent == null)
             {
                 Utility.SlowType("올바른 이벤트를 찾을 수 없습니다.");
-                return -1;
+                return null;
             }
-
-            Utility.SlowType(gameEvent.Question);
+            Console.Clear();
+            Utility.DisplayStats(player);
+            string messageWithId = $"({gameEvent.Id}) {gameEvent.Question}"; // 이벤트앞에 ID 출력
+            Utility.SlowType(messageWithId);
             Console.Write("어느 선택을 할까요? (1 또는 2 입력): ");
             string choice = Console.ReadLine();
             while (choice == null || (!gameEvent.PositiveResults.ContainsKey(choice) && !gameEvent.NegativeResults.ContainsKey(choice)))
@@ -92,9 +95,10 @@ namespace TheForgottenQuest.Events
             Console.WriteLine("다음으로 이동...");
             Console.ReadLine();
 
-            return gameEvent.NextEventId ?? -1;
+            // return gameEvent.NextEventId ?? -1; // 이벤트단위로 고정 진행
+            return result.NextEventId ?? "defaultEventId"; // 결과에 따른 분기 진행
         }
-        
+
         private static void RunSubEvent(List<Event> eventList, UserDTO player)
         {
             if (eventList == null || eventList.Count == 0)
