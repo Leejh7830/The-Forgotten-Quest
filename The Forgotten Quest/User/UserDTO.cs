@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using The_Forgotten_Quest.User;
 
 namespace TheForgottenQuest.User
 {
@@ -15,6 +16,7 @@ namespace TheForgottenQuest.User
         public int MaxMP { get; private set; }
         public int LUK { get; private set; }
         public bool IsAlive { get; private set; } = true; // 생존 여부, 현재는 불필요함
+        public Buff_Debuff BuffDebuff { get; private set; }
 
 
         // 새로운 플레이어 생성자 (고유ID 생성)
@@ -26,6 +28,7 @@ namespace TheForgottenQuest.User
             EXP = 0;
             Job = job;
             SetStats(job);
+            BuffDebuff = new Buff_Debuff(this); // Buff_Debuff 객체 생성
         }
 
         // JSON 역직렬화를 위한 생성자, Load 할 때 사용
@@ -43,6 +46,7 @@ namespace TheForgottenQuest.User
             MaxMP = maxMp;
             LUK = luk;
             IsAlive = isAlive;
+            BuffDebuff = new Buff_Debuff(this);
         }
 
         /*
@@ -131,8 +135,16 @@ namespace TheForgottenQuest.User
 
         public void ChangeHP(int amount)
         {
-            HP = Math.Clamp(HP + amount, 0, MaxHP);
+            HP = Math.Clamp(HP + amount, 0, MaxHP); // 범위 0 ~ MaxHP 
             Utility.SlowType($"HP가 {amount}만큼 변경되었습니다. 현재 HP: {HP}/{MaxHP}");
+            CheckDeath();
+        }
+
+        public void ChangeMaxHP(int amount)
+        {
+            MaxHP = Math.Max(MaxHP + amount, 0);
+            HP = Math.Min(HP, MaxHP); // HP가 MaxHP를 초과하지 않도록 조정
+            Utility.SlowType($"MaxHP가 {amount}만큼 변경되었습니다. 현재 HP: {HP}/{MaxHP}");
             CheckDeath();
         }
 
@@ -140,6 +152,13 @@ namespace TheForgottenQuest.User
         {
             MP = Math.Clamp(MP + amount, 0, MaxMP);
             Utility.SlowType($"MP가 {amount}만큼 변경되었습니다. 현재 MP: {MP}/{MaxMP}");
+        }
+
+        public void ChangeMaxMP(int amount)
+        {
+            MaxHP = Math.Max(MaxMP + amount, 0);
+            MP = Math.Min(MP, MaxMP);
+            Utility.SlowType($"MaxMP가 {amount}만큼 변경되었습니다. 현재 MP: {MP}/{MaxMP}");
         }
 
         public void ChangeLUK(int amount)
