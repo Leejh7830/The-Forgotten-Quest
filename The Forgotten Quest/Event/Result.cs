@@ -12,7 +12,7 @@
         public int LUKChange { get; set; } = 0;
         public bool SaveGame { get; set; } = false;
         public string? NextEventId { get; set; } // string? 는 string값 또는 null 값 가능
-        public string? Buff {  get; set; } // 버프
-        public string? Debuff { get; set; } // 디버프
+        public List<string>? Buffs {  get; set; } // 버프
+        public List<string>? Debuffs { get; set; } // 디버프
     }
 }

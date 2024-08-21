@@ -22,100 +22,108 @@ namespace The_Forgotten_Quest.User
 
 
         // 능력치에 따라 상태 플래그에 따른 수정
-        public int ModifiedHP
+        public int ModHP
         {
             get
             {
-                int modifiedHp = player.HP;
-                int modifiedMaxHp = player.BuffDebuff.ModifiedMaxHP; // 먼저 호출하여 최신 값을 가져옵니다.
+                int modHp = player.HP;
+                int modMaxHp = player.BuffDebuff.ModMaxHP; // 먼저 호출하여 최신 값을 가져옵니다.
 
                 if (StatusFlags.ContainsKey("상처") && StatusFlags["상처"])
                 {
-                    modifiedHp -= 10; // 상처 디버프가 있을 경우 HP 감소
+                    modHp -= 10;
                 }
 
-                if (StatusFlags.ContainsKey("중독") && StatusFlags["중독"])
+                if ((StatusFlags.ContainsKey("중독") && StatusFlags["중독"]) ||
+                    (StatusFlags.ContainsKey("한기") && StatusFlags["한기"]) ||
+                    (StatusFlags.ContainsKey("공포") && StatusFlags["공포"]))
                 {
-                    modifiedHp -= 15; // 중독 디버프가 있을 경우 HP 추가 감소
+                    modHp -= 15;
                 }
 
                 if (StatusFlags.ContainsKey("행운") && StatusFlags["행운"])
                 {
-                    modifiedHp += 20; // 행운 버프가 있을 경우 HP 증가
+                    modHp += 20;
                 }
 
                 if (StatusFlags.ContainsKey("저주") && StatusFlags["저주"])
                 {
-                    modifiedHp -= 20; // 저주 디버프가 있을 경우 HP 감소
+                    modHp -= 20;
                 }
 
-                return Math.Min(modifiedHp, modifiedMaxHp); // Hp가 MaxHp를 초과하지 않도록 제한
+                return Math.Min(modHp, modMaxHp); // HP가 MaxHP를 초과하지 않도록 제한
             }
         }
 
 
-        public int ModifiedMaxHP
+
+        public int ModMaxHP
         {
             get
             {
-                int modifiedMaxHp = player.MaxHP;
+                int modMaxHp = player.MaxHP;
+                if ((StatusFlags.ContainsKey("한기") && StatusFlags["한기"]) ||
+                    (StatusFlags.ContainsKey("공포") && StatusFlags["공포"]))
+                {
+                    modMaxHp -= 10;
+                }
                 if (StatusFlags.ContainsKey("저주") && StatusFlags["저주"])
                 {
-                    modifiedMaxHp -= 20;
+                    modMaxHp -= 20;
                 }
 
-                return modifiedMaxHp;
+                return modMaxHp;
             }
         }
 
-        public int ModifiedMP
+        public int ModMP
         {
             get
             {
-                int modifiedMp = player.MP;
-                int modifiedMaxMp = player.BuffDebuff.ModifiedMaxMP;
+                int modMp = player.MP;
+                int modMaxMp = player.BuffDebuff.ModMaxMP;
 
                 if (StatusFlags.ContainsKey("명상") && StatusFlags["명상"])
                 {
-                    modifiedMp += 10;
+                    modMp += 10;
                 }
 
-                return Math.Min(modifiedMp, modifiedMaxMp); ;
+                return Math.Min(modMp, modMaxMp); ;
             }
         }
 
-        public int ModifiedMaxMP
+        public int ModMaxMP
         {
             get
             {
-                int ModifiedMaxMP = player.MaxMP;
+                int ModMaxMP = player.MaxMP;
 
                 if (StatusFlags.ContainsKey("깊은명상") && StatusFlags["깊은명상"])
                 {
-                    ModifiedMaxMP += 10;
+                    ModMaxMP += 10;
                 }
 
-                return ModifiedMaxMP;
+                return ModMaxMP;
             }
         }
 
-        public int ModifiedLUK
+        public int ModLUK
         {
             get
             {
-                int modifiedLuk = player.LUK;
+                int modLuk = player.LUK;
 
                 if (StatusFlags.ContainsKey("저주") && StatusFlags["저주"])
                 {
-                    modifiedLuk -= 5; // 저주 디버프가 있을 경우 운(LUK) 감소
+                    modLuk -= 5; // 저주 디버프가 있을 경우 운(LUK) 감소
                 }
 
                 if (StatusFlags.ContainsKey("행운") && StatusFlags["행운"])
                 {
-                    modifiedLuk += 5; // 행운 버프가 있을 경우 운(LUK) 증가
+                    modLuk += 5; // 행운 버프가 있을 경우 운(LUK) 증가
                 }
 
-                return modifiedLuk;
+                return modLuk;
             }
         }
 

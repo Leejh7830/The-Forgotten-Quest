@@ -78,22 +78,6 @@ namespace TheForgottenQuest.Events
                 choice = Console.ReadLine();
             }
 
-            /*int roll = random.Next(1, 101);
-            Result result;
-
-            if (roll > 50)
-            {
-                result = gameEvent.PositiveResults[choice];
-            }
-            else
-            {
-                result = gameEvent.NegativeResults[choice];
-            }
-
-            Utility.SlowType($"Dice: {roll}\n{result.Message}\n");
-            EventResultApplier.ApplyResult(player, result);
-            Console.WriteLine("다음으로 이동...");
-            Console.ReadLine();*/
             Result result = Utility.DisplayRollResult(player, gameEvent, choice);
 
             // return gameEvent.NextEventId ?? -1; // 이벤트단위로 고정 진행

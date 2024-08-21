@@ -48,30 +48,62 @@ namespace TheForgottenQuest.Events
             }
 
             // 버프 적용 (항목 추가 시 Buff_Debuff.cs에 내용 추가해야함)
-            if (!string.IsNullOrEmpty(result.Buff))
+            if (result.Buffs != null && result.Buffs.Any())
             {
-                if (result.Debuff == "행운적용")
+                foreach (var debuff in result.Buffs)
                 {
-                    player.BuffDebuff.ApplyBuff("행운");
-                }
-                else if (result.Debuff == "행운해제")
-                {
-                    player.BuffDebuff.RemoveBuff("행운");
+                    var debuffName = debuff.Replace("적용", "").Replace("해제", "");
+                    if (debuff.Contains("적용"))
+                    {
+                        player.BuffDebuff.ApplyDebuff(debuffName);
+                    }
+                    else if (debuff.Contains("해제"))
+                    {
+                        player.BuffDebuff.RemoveDebuff(debuffName);
+                    }
                 }
             }
+            /*if (!string.IsNullOrEmpty(result.Buff))
+            {
+                var debuffName = result.Buff.Replace("적용", "").Replace("해제", "");
+                if (result.Buff.Contains("적용"))
+                {
+                    player.BuffDebuff.ApplyDebuff(debuffName);
+                }
+                else if (result.Buff.Contains("해제"))
+                {
+                    player.BuffDebuff.RemoveDebuff(debuffName);
+                }
+            }*/
 
             // 디버프 적용 (항목 추가 시 Buff_Debuff.cs에 내용 추가해야함)
-            if (!string.IsNullOrEmpty(result.Debuff))
+            if (result.Debuffs != null && result.Debuffs.Any())
             {
-                if (result.Debuff == "저주적용")
+                foreach (var debuff in result.Debuffs)
                 {
-                    player.BuffDebuff.ApplyDebuff("저주");
-                }
-                else if (result.Debuff == "저주해제")
-                {
-                    player.BuffDebuff.RemoveDebuff("저주");
+                    var debuffName = debuff.Replace("적용", "").Replace("해제", "");
+                    if (debuff.Contains("적용"))
+                    {
+                        player.BuffDebuff.ApplyDebuff(debuffName);
+                    }
+                    else if (debuff.Contains("해제"))
+                    {
+                        player.BuffDebuff.RemoveDebuff(debuffName);
+                    }
                 }
             }
+            /*if (!string.IsNullOrEmpty(result.Debuff))
+            {
+                var debuffName = result.Debuff.Replace("적용", "").Replace("해제", "");
+                if (result.Debuff.Contains("적용"))
+                {
+                    player.BuffDebuff.ApplyDebuff(debuffName);
+                }
+                else if (result.Debuff.Contains("해제"))
+                {
+                    player.BuffDebuff.RemoveDebuff(debuffName);
+                }
+            }*/
         }
     }
 }

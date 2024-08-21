@@ -131,9 +131,9 @@ namespace TheForgottenQuest
             Console.WriteLine($"    {"Job:",-5} {player.Job}");
             Console.WriteLine($"    {"Level:",-5} {player.Level}");
             Console.WriteLine($"    {"EXP:",-5} {player.EXP} / 100");
-            Console.WriteLine($"    {"HP:",-5} {player.BuffDebuff.ModifiedHP} / {player.BuffDebuff.ModifiedMaxHP}");
-            Console.WriteLine($"    {"MP:",-5} {player.BuffDebuff.ModifiedMP} / {player.BuffDebuff.ModifiedMaxMP}");
-            Console.WriteLine($"    {"LUK:",-5} {player.BuffDebuff.ModifiedLUK}");
+            Console.WriteLine($"    {"HP:",-5} {player.BuffDebuff.ModHP} / {player.BuffDebuff.ModMaxHP}");
+            Console.WriteLine($"    {"MP:",-5} {player.BuffDebuff.ModMP} / {player.BuffDebuff.ModMaxMP}");
+            Console.WriteLine($"    {"LUK:",-5} {player.BuffDebuff.ModLUK}");
             Console.WriteLine("=======================================================");
         }
 

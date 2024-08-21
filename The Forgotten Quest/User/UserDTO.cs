@@ -48,21 +48,6 @@ namespace TheForgottenQuest.User
             IsAlive = isAlive;
             BuffDebuff = new Buff_Debuff(this);
         }
-
-        /*
-        // 기존 플레이어 생성자, 현재 미사용
-        public UserDTO(UserDTO existingUser)
-        {
-            Id = existingUser.Id;
-            Name = existingUser.Name;
-            Level = existingUser.Level;
-            EXP = existingUser.EXP;
-            Job = existingUser.Job;
-            HP = existingUser.HP;
-            MP = existingUser.MP;
-            LUK = existingUser.LUK;
-        }  
-        */
         
         private void SetStats(string job)
         {
@@ -112,9 +97,9 @@ namespace TheForgottenQuest.User
         {
             Level++;
             Utility.SlowType($"{Name}의 레벨이 {Level}로 증가했습니다!");
-            MaxHP += 10;
+            ChangeMaxHP(10);
             Utility.SlowType("MaxHP가 10 증가했습니다.");
-            MaxMP += 5;
+            ChangeMaxMP(5);
             Utility.SlowType("MaxMP가 5 증가했습니다.");
             RestoreFullHP();
             RestoreFullMP();
@@ -135,46 +120,46 @@ namespace TheForgottenQuest.User
 
         public void ChangeHP(int amount)
         {
-            HP = Math.Clamp(HP + amount, 0, MaxHP); // 범위 0 ~ MaxHP 
-            Utility.SlowType($"HP가 {amount}만큼 변경되었습니다. 현재 HP: {HP}/{MaxHP}");
+            HP = Math.Clamp(BuffDebuff.ModHP + amount, 0, BuffDebuff.ModMaxHP); // ModifiedHP 사용
+            Utility.SlowType($"HP가 {amount}만큼 변경되었습니다. 현재 HP: {BuffDebuff.ModHP}/{BuffDebuff.ModMaxHP}");
             CheckDeath();
         }
 
         public void ChangeMaxHP(int amount)
         {
-            MaxHP = Math.Max(MaxHP + amount, 0);
-            HP = Math.Min(HP, MaxHP); // HP가 MaxHP를 초과하지 않도록 조정
-            Utility.SlowType($"MaxHP가 {amount}만큼 변경되었습니다. 현재 HP: {HP}/{MaxHP}");
+            MaxHP = Math.Max(MaxHP + amount, 0); // MaxHP를 변경
+            HP = Math.Min(HP, BuffDebuff.ModMaxHP); // HP가 변경된 MaxHP를 초과하지 않도록 조정
+            Utility.SlowType($"MaxHP가 {amount}만큼 변경되었습니다. 현재 HP: {BuffDebuff.ModHP}/{BuffDebuff.ModMaxHP}");
             CheckDeath();
         }
 
         public void ChangeMP(int amount)
         {
-            MP = Math.Clamp(MP + amount, 0, MaxMP);
-            Utility.SlowType($"MP가 {amount}만큼 변경되었습니다. 현재 MP: {MP}/{MaxMP}");
+            MP = Math.Clamp(BuffDebuff.ModMP + amount, 0, BuffDebuff.ModMaxMP); // ModifiedMP 사용
+            Utility.SlowType($"MP가 {amount}만큼 변경되었습니다. 현재 MP: {BuffDebuff.ModMP}/{BuffDebuff.ModMaxMP}");
         }
 
         public void ChangeMaxMP(int amount)
         {
-            MaxHP = Math.Max(MaxMP + amount, 0);
-            MP = Math.Min(MP, MaxMP);
-            Utility.SlowType($"MaxMP가 {amount}만큼 변경되었습니다. 현재 MP: {MP}/{MaxMP}");
+            MaxMP = Math.Max(MaxMP + amount, 0); // MaxMP를 변경
+            MP = Math.Min(MP, BuffDebuff.ModMaxMP); // MP가 변경된 MaxMP를 초과하지 않도록 조정
+            Utility.SlowType($"MaxMP가 {amount}만큼 변경되었습니다. 현재 MP: {BuffDebuff.ModMP}/{BuffDebuff.ModMaxMP}");
         }
 
         public void ChangeLUK(int amount)
         {
-            LUK += amount;
-            Utility.SlowType($"운이 {amount}만큼 변경되었습니다. 현재 운: {LUK}");
+            LUK = BuffDebuff.ModLUK + amount; // ModifiedLUK 사용
+            Utility.SlowType($"운이 {amount}만큼 변경되었습니다. 현재 운: {BuffDebuff.ModLUK}");
         }
 
         private void RestoreFullHP()
         {
-            HP = MaxHP;
+            HP = BuffDebuff.ModMaxHP; // HP를 최대 HP로 회복
         }
 
         private void RestoreFullMP()
         {
-            MP = MaxMP;
+            MP = BuffDebuff.ModMaxMP; // MP를 최대 MP로 회복
         }
     }
 }
