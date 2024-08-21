@@ -27,6 +27,7 @@ namespace The_Forgotten_Quest.User
             get
             {
                 int modifiedHp = player.HP;
+                int modifiedMaxHp = player.BuffDebuff.ModifiedMaxHP; // 먼저 호출하여 최신 값을 가져옵니다.
 
                 if (StatusFlags.ContainsKey("상처") && StatusFlags["상처"])
                 {
@@ -43,9 +44,15 @@ namespace The_Forgotten_Quest.User
                     modifiedHp += 20; // 행운 버프가 있을 경우 HP 증가
                 }
 
-                return modifiedHp;
+                if (StatusFlags.ContainsKey("저주") && StatusFlags["저주"])
+                {
+                    modifiedHp -= 20; // 저주 디버프가 있을 경우 HP 감소
+                }
+
+                return Math.Min(modifiedHp, modifiedMaxHp); // Hp가 MaxHp를 초과하지 않도록 제한
             }
         }
+
 
         public int ModifiedMaxHP
         {
@@ -66,13 +73,14 @@ namespace The_Forgotten_Quest.User
             get
             {
                 int modifiedMp = player.MP;
+                int modifiedMaxMp = player.BuffDebuff.ModifiedMaxMP;
 
                 if (StatusFlags.ContainsKey("명상") && StatusFlags["명상"])
                 {
                     modifiedMp += 10;
                 }
 
-                return modifiedMp;
+                return Math.Min(modifiedMp, modifiedMaxMp); ;
             }
         }
 
@@ -146,12 +154,6 @@ namespace The_Forgotten_Quest.User
             if (!StatusFlags.ContainsKey(debuffName) || !StatusFlags[debuffName])
             {
                 Console.WriteLine($"{debuffName} 디버프가 적용되었습니다.");
-                ////////////////////////////////아래에 디버프 추가////////////////////////////////////////
-
-                /*if (debuffName == "저주")
-                {
-                    player.ChangeMaxHP(-20); // MaxHP를 즉시 -20 감소시킴
-                }*/
 
                 StatusFlags[debuffName] = true;
             }
@@ -167,12 +169,6 @@ namespace The_Forgotten_Quest.User
             if (StatusFlags.ContainsKey(debuffName) && StatusFlags[debuffName])
             {
                 Console.WriteLine($"{debuffName} 디버프가 해제되었습니다.");
-
-                ////////////////////////////////아래에 디버프 추가////////////////////////////////////////
-                /*if (debuffName == "저주")
-                {
-                    player.ChangeMaxHP(20); // MaxHP를 다시 20 증가시킴
-                }*/
 
                 StatusFlags[debuffName] = false;
             }
