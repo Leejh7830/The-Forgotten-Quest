@@ -34,9 +34,17 @@ namespace The_Forgotten_Quest.User
                     modHp -= 10;
                 }
 
-                if ((StatusFlags.ContainsKey("중독") && StatusFlags["중독"]) ||
-                    (StatusFlags.ContainsKey("한기") && StatusFlags["한기"]) ||
-                    (StatusFlags.ContainsKey("공포") && StatusFlags["공포"]))
+                if (StatusFlags.ContainsKey("중독") && StatusFlags["중독"])
+                {
+                    modHp -= 15;
+                }
+
+                if (StatusFlags.ContainsKey("한기") && StatusFlags["한기"])
+                {
+                    modHp -= 15;
+                }
+
+                if (StatusFlags.ContainsKey("공포") && StatusFlags["공포"])
                 {
                     modHp -= 15;
                 }
@@ -57,16 +65,23 @@ namespace The_Forgotten_Quest.User
 
 
 
+
         public int ModMaxHP
         {
             get
             {
                 int modMaxHp = player.MaxHP;
-                if ((StatusFlags.ContainsKey("한기") && StatusFlags["한기"]) ||
-                    (StatusFlags.ContainsKey("공포") && StatusFlags["공포"]))
+
+                if (StatusFlags.ContainsKey("한기") && StatusFlags["한기"])
                 {
                     modMaxHp -= 10;
                 }
+
+                if (StatusFlags.ContainsKey("공포") && StatusFlags["공포"])
+                {
+                    modMaxHp -= 10;
+                }
+
                 if (StatusFlags.ContainsKey("저주") && StatusFlags["저주"])
                 {
                     modMaxHp -= 20;

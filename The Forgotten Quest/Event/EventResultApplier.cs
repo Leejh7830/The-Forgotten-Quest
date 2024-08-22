@@ -55,26 +55,14 @@ namespace TheForgottenQuest.Events
                     var debuffName = debuff.Replace("적용", "").Replace("해제", "");
                     if (debuff.Contains("적용"))
                     {
-                        player.BuffDebuff.ApplyDebuff(debuffName);
+                        player.BuffDebuff.ApplyBuff(debuffName);
                     }
                     else if (debuff.Contains("해제"))
                     {
-                        player.BuffDebuff.RemoveDebuff(debuffName);
+                        player.BuffDebuff.RemoveBuff(debuffName);
                     }
                 }
             }
-            /*if (!string.IsNullOrEmpty(result.Buff))
-            {
-                var debuffName = result.Buff.Replace("적용", "").Replace("해제", "");
-                if (result.Buff.Contains("적용"))
-                {
-                    player.BuffDebuff.ApplyDebuff(debuffName);
-                }
-                else if (result.Buff.Contains("해제"))
-                {
-                    player.BuffDebuff.RemoveDebuff(debuffName);
-                }
-            }*/
 
             // 디버프 적용 (항목 추가 시 Buff_Debuff.cs에 내용 추가해야함)
             if (result.Debuffs != null && result.Debuffs.Any())
@@ -92,18 +80,6 @@ namespace TheForgottenQuest.Events
                     }
                 }
             }
-            /*if (!string.IsNullOrEmpty(result.Debuff))
-            {
-                var debuffName = result.Debuff.Replace("적용", "").Replace("해제", "");
-                if (result.Debuff.Contains("적용"))
-                {
-                    player.BuffDebuff.ApplyDebuff(debuffName);
-                }
-                else if (result.Debuff.Contains("해제"))
-                {
-                    player.BuffDebuff.RemoveDebuff(debuffName);
-                }
-            }*/
         }
     }
 }
