@@ -9,7 +9,6 @@ namespace TheForgottenQuest.Events
     {
         private static Random random = new Random();
         private static EventSet events = new EventSet();
-        private static string currentMainQuestEventId = "1"; // 메인 퀘스트 시작 ID
 
         public static void Initialize(string filePath)
         {
@@ -19,11 +18,12 @@ namespace TheForgottenQuest.Events
         public static void RunMainQuest(UserDTO player, string filePath)
         {
             Initialize(filePath);
-            while (!string.IsNullOrEmpty(currentMainQuestEventId))
+            string EventID = player.CurrentMainQuestEventId;
+            while (!string.IsNullOrEmpty(EventID))
             {
                 Console.Clear();
                 Utility.DisplayStats(player);
-                var gameEvent = events.MainQuest.Find(e => e.Id.ToString() == currentMainQuestEventId);
+                var gameEvent = events.MainQuest.Find(e => e.Id.ToString() == EventID);
 
                 while (gameEvent != null && !EventConditionChecker.CheckCondition(gameEvent, player, out string failedCondition))
                 {
@@ -34,11 +34,11 @@ namespace TheForgottenQuest.Events
                     Thread.Sleep(500);
                     RunRandomSubEvent(player);
 
-                    gameEvent = events.MainQuest.Find(e => e.Id.ToString() == currentMainQuestEventId);
+                    gameEvent = events.MainQuest.Find(e => e.Id.ToString() == EventID);
                 }
 
-                string nextEventId = RunMainEvent(events.MainQuest, currentMainQuestEventId, player);
-                currentMainQuestEventId = nextEventId;
+                string nextEventID = RunMainEvent(events.MainQuest, EventID, player);
+                EventID = nextEventID;
             }
 
             RunRandomSubEvent(player);

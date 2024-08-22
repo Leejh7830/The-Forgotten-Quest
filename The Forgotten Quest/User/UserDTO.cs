@@ -17,6 +17,7 @@ namespace TheForgottenQuest.User
         public int LUK { get; private set; }
         public bool IsAlive { get; private set; } = true; // 생존 여부, 현재는 불필요함
         public Buff_Debuff BuffDebuff { get; private set; }
+        public string CurrentMainQuestEventId { get; set; } = "1"; // 기본값은 "1"로 설정
 
 
         // 새로운 플레이어 생성자 (고유ID 생성)
@@ -28,12 +29,13 @@ namespace TheForgottenQuest.User
             EXP = 0;
             Job = job;
             SetStats(job);
-            BuffDebuff = new Buff_Debuff(this); // Buff_Debuff 객체 생성
+            BuffDebuff = new Buff_Debuff(this);
+            CurrentMainQuestEventId = "1";
         }
 
         // JSON 역직렬화를 위한 생성자, Load 할 때 사용
         [JsonConstructor]
-        public UserDTO(Guid id, string name, string job, int level, int exp, int hp, int maxHp, int mp, int maxMp, int luk, bool isAlive)
+        public UserDTO(Guid id, string name, string job, int level, int exp, int hp, int maxHp, int mp, int maxMp, int luk, bool isAlive, string currentMainQuestEventId)
         {
             Id = id;
             Name = name;
@@ -47,6 +49,7 @@ namespace TheForgottenQuest.User
             LUK = luk;
             IsAlive = isAlive;
             BuffDebuff = new Buff_Debuff(this);
+            CurrentMainQuestEventId = currentMainQuestEventId ?? "1"; // null인 경우 1할당
         }
         
         private void SetStats(string job)
@@ -77,7 +80,6 @@ namespace TheForgottenQuest.User
                     LUK = 0;
                     break;
             }
-            // MaxHP와 MaxMP도 초기화
             MaxHP = HP;
             MaxMP = MP;
         }
