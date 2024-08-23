@@ -118,9 +118,9 @@ namespace TheForgottenQuest.User
                 Utility.GameOver();
             }
         }
+        
 
-
-        public void ChangeHP(int amount)
+        public void ChangeHP(int amount)   
         {
             HP = Math.Clamp(BuffDebuff.ModHP + amount, 0, BuffDebuff.ModMaxHP); // ModifiedHP 사용
             Utility.SlowType($"HP가 {amount}만큼 변경되었습니다. 현재 HP: {BuffDebuff.ModHP}/{BuffDebuff.ModMaxHP}");
