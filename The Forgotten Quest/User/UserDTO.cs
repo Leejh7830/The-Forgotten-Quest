@@ -20,6 +20,13 @@ namespace TheForgottenQuest.User
         public string CurrentMainQuestEventId { get; set; } = "1"; // 기본값은 "1"로 설정
 
 
+        // 새로 추가된 스탯들
+        public int STR { get; private set; } // 힘
+        public int DEX { get; private set; }  // 민첩
+        public int INT { get; private set; }  // 지능
+        public double AttackPower { get; private set; } // 최종 공격력 (STR/DEX/INT)
+
+
         // 새로운 플레이어 생성자 (고유ID 생성)
         public UserDTO(string name, string job)
         {
@@ -33,9 +40,9 @@ namespace TheForgottenQuest.User
             CurrentMainQuestEventId = "1";
         }
 
-        // JSON 역직렬화를 위한 생성자, Load 할 때 사용
+
         [JsonConstructor]
-        public UserDTO(Guid id, string name, string job, int level, int exp, int hp, int maxHp, int mp, int maxMp, int luk, bool isAlive, string currentMainQuestEventId)
+        public UserDTO(Guid id, string name, string job, int level, int exp, int hp, int maxHp, int mp, int maxMp, int luk, bool isAlive, int str, int dex, int @int, string currentMainQuestEventId)
         {
             Id = id;
             Name = name;
@@ -48,10 +55,13 @@ namespace TheForgottenQuest.User
             MaxMP = maxMp;
             LUK = luk;
             IsAlive = isAlive;
+            STR = str;
+            DEX = dex;
+            INT = @int;
             BuffDebuff = new Buff_Debuff(this);
             CurrentMainQuestEventId = currentMainQuestEventId ?? "1"; // null인 경우 1할당
         }
-        
+
         private void SetStats(string job)
         {
             switch (job.ToLower())
@@ -60,24 +70,36 @@ namespace TheForgottenQuest.User
                     HP = 150;
                     MP = 10;
                     LUK = 0;
+                    STR = 7;
+                    DEX = 2;
+                    INT = 1;
                     break;
 
                 case "마법사":
                     HP = 100;
                     MP = 50;
                     LUK = 2;
+                    STR = 2;
+                    DEX = 2;
+                    INT = 6;
                     break;
 
                 case "도적":
                     HP = 120;
                     MP = 20;
                     LUK = 5;
+                    STR = 3;
+                    DEX = 5;
+                    INT = 2;
                     break;
 
                 default:
                     HP = 100;
                     MP = 0;
                     LUK = 0;
+                    STR = 3;
+                    DEX = 3;
+                    INT = 3;
                     break;
             }
             MaxHP = HP;
@@ -103,6 +125,10 @@ namespace TheForgottenQuest.User
             Utility.SlowType("MaxHP가 10 증가했습니다.");
             ChangeMaxMP(5);
             Utility.SlowType("MaxMP가 5 증가했습니다.");
+            STR += 1;
+            DEX += 1;
+            INT += 1;
+            Utility.SlowType("모든 스탯이 1씩 증가했습니다.");
             RestoreFullHP();
             RestoreFullMP();
             Utility.SlowType("HP / MP 회복되었습니다.");
@@ -162,6 +188,36 @@ namespace TheForgottenQuest.User
         private void RestoreFullMP()
         {
             MP = BuffDebuff.ModMaxMP; // MP를 최대 MP로 회복
+        }
+
+        private void CalculateAttackPower()
+        {
+            double strWeight = 1.0;
+            double dexWeight = 1.0;
+            double intWeight = 1.0;
+
+            switch (Job.ToLower())
+            {
+                case "전사":
+                    strWeight = 1.2;
+                    dexWeight = 1.0;
+                    intWeight = 0.8;
+                    break;
+
+                case "마법사":
+                    strWeight = 0.8;
+                    dexWeight = 1.0;
+                    intWeight = 1.2;
+                    break;
+
+                case "도적":
+                    strWeight = 1.0;
+                    dexWeight = 1.2;
+                    intWeight = 1.0;
+                    break;
+            }
+
+            AttackPower = (STR * strWeight) + (DEX * dexWeight) + (INT * intWeight);
         }
     }
 }
