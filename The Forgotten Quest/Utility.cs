@@ -133,9 +133,13 @@ namespace TheForgottenQuest
             Console.WriteLine($"    {"EXP:",-5} {player.EXP} / 100");
             Console.WriteLine($"    {"HP:",-5} {player.BuffDebuff.ModHP} / {player.BuffDebuff.ModMaxHP}");
             Console.WriteLine($"    {"MP:",-5} {player.BuffDebuff.ModMP} / {player.BuffDebuff.ModMaxMP}");
+            Console.WriteLine($"    {"STR:",-5} {player.STR}");
+            Console.WriteLine($"    {"DEX:",-5} {player.DEX}");
+            Console.WriteLine($"    {"INT:",-5} {player.INT}");
             Console.WriteLine($"    {"LUK:",-5} {player.BuffDebuff.ModLUK}");
             Console.WriteLine("=======================================================");
         }
+
 
         public static Result DisplayRollResult(UserDTO player ,Event gameEvent, string choice)
         {

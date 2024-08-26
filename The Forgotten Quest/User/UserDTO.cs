@@ -38,6 +38,7 @@ namespace TheForgottenQuest.User
             SetStats(job);
             BuffDebuff = new Buff_Debuff(this);
             CurrentMainQuestEventId = "1";
+            CalculateAttackPower();
         }
 
 
@@ -60,6 +61,7 @@ namespace TheForgottenQuest.User
             INT = @int;
             BuffDebuff = new Buff_Debuff(this);
             CurrentMainQuestEventId = currentMainQuestEventId ?? "1"; // null인 경우 1할당
+            CalculateAttackPower();
         }
 
         private void SetStats(string job)
@@ -94,14 +96,9 @@ namespace TheForgottenQuest.User
                     break;
 
                 default:
-                    HP = 100;
-                    MP = 0;
-                    LUK = 0;
-                    STR = 3;
-                    DEX = 3;
-                    INT = 3;
-                    break;
+                    throw new ArgumentException("올바른 직업을 입력하세요: 하나를 선택해야 합니다.");
             }
+
             MaxHP = HP;
             MaxMP = MP;
         }
@@ -199,21 +196,21 @@ namespace TheForgottenQuest.User
             switch (Job.ToLower())
             {
                 case "전사":
-                    strWeight = 1.2;
+                    strWeight = 1.4;
                     dexWeight = 1.0;
-                    intWeight = 0.8;
+                    intWeight = 0.7;
                     break;
 
                 case "마법사":
                     strWeight = 0.8;
-                    dexWeight = 1.0;
-                    intWeight = 1.2;
+                    dexWeight = 0.8;
+                    intWeight = 1.5;
                     break;
 
                 case "도적":
                     strWeight = 1.0;
-                    dexWeight = 1.2;
-                    intWeight = 1.0;
+                    dexWeight = 1.3;
+                    intWeight = 0.9;
                     break;
             }
 

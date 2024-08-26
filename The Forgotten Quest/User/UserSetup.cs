@@ -25,14 +25,13 @@
             Utility.SlowType("1. 전사");
             Utility.SlowType("2. 마법사");
             Utility.SlowType("3. 도적");
-            Utility.SlowType("4. 선택안함");
             Utility.SlowType("- - - - - - - - - - - - - - -");
 
             string job = "";
             int jobChoice = 0;
-            while (!int.TryParse(Console.ReadLine(), out jobChoice) || jobChoice < 1 || jobChoice > 4)
+            while (!int.TryParse(Console.ReadLine(), out jobChoice) || jobChoice < 1 || jobChoice > 3)
             {
-                Utility.SlowType("올바른 번호를 선택하세요. (1, 2, 3, 4)");
+                Utility.SlowType("올바른 번호를 선택하세요. (1, 2, 3)");
             }
 
             switch (jobChoice)
@@ -46,12 +45,7 @@
                 case 3:
                     job = "도적";
                     break;
-                case 4:
-                    Utility.SlowType("직업을 선택하지 않았습니다. 기본 직업으로 설정됩니다.");
-                    job = "기본";
-                    break;
             }
-
             return job;
         }
 
