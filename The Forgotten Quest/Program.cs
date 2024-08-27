@@ -15,16 +15,20 @@ namespace TheForgottenQuest
             while (true)
             {
                 MenuManager.ShowMainMenu();
-                string choice = Console.ReadLine();
-                switch (choice)
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true); // 키 입력을 바로 받습니다.
+
+                switch (keyInfo.Key)
                 {
-                    case "1":
+                    case ConsoleKey.D1: // 숫자 1
+                    case ConsoleKey.NumPad1: // 숫자 패드 1
                         MenuManager.StartNewGame(ref loading);
                         break;
-                    case "2":
+                    case ConsoleKey.D2: // 숫자 2
+                    case ConsoleKey.NumPad2: // 숫자 패드 2
                         MenuManager.LoadGame(ref loading);
                         break;
-                    case "3":
+                    case ConsoleKey.D3: // 숫자 3
+                    case ConsoleKey.NumPad3: // 숫자 패드 3
                         MenuManager.ExitGame();
                         return;
                     default:
