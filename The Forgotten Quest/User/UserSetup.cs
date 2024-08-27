@@ -54,6 +54,7 @@
             Utility.SlowType($"\n당신의 이름은 {name}이고, 직업은 {job}입니다. 맞습니까?");
             Utility.SlowType("1. 예");
             Utility.SlowType("2. 아니오");
+            Utility.SlowType("- - - - - - - - - - - - - - -");
             int confirmation = 0;
             while (!int.TryParse(Console.ReadLine(), out confirmation) || confirmation != 1 && confirmation != 2)
             {

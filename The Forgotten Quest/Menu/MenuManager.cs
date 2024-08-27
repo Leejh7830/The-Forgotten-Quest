@@ -45,7 +45,7 @@ namespace TheForgottenQuest.Menu
             AllPlayers.Add(NewPlayer);
             
             UserSaver.SaveUsers(AllPlayers, PlayerFilePath);
-            Utility.SlowType("캐릭터 정보가 저장되었습니다.");
+            // Utility.SlowType("캐릭터 정보가 저장되었습니다.");
 
             
 

@@ -137,6 +137,7 @@ namespace TheForgottenQuest
             Console.WriteLine($"    {"DEX:",-5} {player.DEX}");
             Console.WriteLine($"    {"INT:",-5} {player.INT}");
             Console.WriteLine($"    {"LUK:",-5} {player.BuffDebuff.ModLUK}");
+            Console.WriteLine($"    {"Attack Power:",-10} {player.AttackPower}");
             Console.WriteLine("=======================================================");
         }
 

@@ -126,6 +126,9 @@ namespace TheForgottenQuest.User
             DEX += 1;
             INT += 1;
             Utility.SlowType("모든 스탯이 1씩 증가했습니다.");
+
+            CalculateAttackPower(); // 스탯 증가 후 공격력 계산
+
             RestoreFullHP();
             RestoreFullMP();
             Utility.SlowType("HP / MP 회복되었습니다.");
@@ -141,12 +144,25 @@ namespace TheForgottenQuest.User
                 Utility.GameOver();
             }
         }
-        
 
-        public void ChangeHP(int amount)   
+
+        private void DisplayStatChange(string statName, int amount, int current, int? max = null)
+        {
+            string action = amount > 0 ? "증가" : "감소";
+            if (max.HasValue)
+            {
+                Utility.SlowType($"{statName}가 {Math.Abs(amount)}만큼 {action}했습니다. 현재 {statName}: {current}/{max}");
+            }
+            else
+            {
+                Utility.SlowType($"{statName}가 {Math.Abs(amount)}만큼 {action}했습니다. 현재 {statName}: {current}");
+            }
+        }
+
+        public void ChangeHP(int amount)
         {
             HP = Math.Clamp(BuffDebuff.ModHP + amount, 0, BuffDebuff.ModMaxHP); // ModifiedHP 사용
-            Utility.SlowType($"HP가 {amount}만큼 변경되었습니다. 현재 HP: {BuffDebuff.ModHP}/{BuffDebuff.ModMaxHP}");
+            DisplayStatChange("HP", amount, BuffDebuff.ModHP, BuffDebuff.ModMaxHP);
             CheckDeath();
         }
 
@@ -154,28 +170,29 @@ namespace TheForgottenQuest.User
         {
             MaxHP = Math.Max(MaxHP + amount, 0); // MaxHP를 변경
             HP = Math.Min(HP, BuffDebuff.ModMaxHP); // HP가 변경된 MaxHP를 초과하지 않도록 조정
-            Utility.SlowType($"MaxHP가 {amount}만큼 변경되었습니다. 현재 HP: {BuffDebuff.ModHP}/{BuffDebuff.ModMaxHP}");
+            DisplayStatChange("MaxHP", amount, BuffDebuff.ModMaxHP);
             CheckDeath();
         }
 
         public void ChangeMP(int amount)
         {
             MP = Math.Clamp(BuffDebuff.ModMP + amount, 0, BuffDebuff.ModMaxMP); // ModifiedMP 사용
-            Utility.SlowType($"MP가 {amount}만큼 변경되었습니다. 현재 MP: {BuffDebuff.ModMP}/{BuffDebuff.ModMaxMP}");
+            DisplayStatChange("MP", amount, BuffDebuff.ModMP, BuffDebuff.ModMaxMP);
         }
 
         public void ChangeMaxMP(int amount)
         {
             MaxMP = Math.Max(MaxMP + amount, 0); // MaxMP를 변경
             MP = Math.Min(MP, BuffDebuff.ModMaxMP); // MP가 변경된 MaxMP를 초과하지 않도록 조정
-            Utility.SlowType($"MaxMP가 {amount}만큼 변경되었습니다. 현재 MP: {BuffDebuff.ModMP}/{BuffDebuff.ModMaxMP}");
+            DisplayStatChange("MaxMP", amount, BuffDebuff.ModMaxMP);
         }
 
         public void ChangeLUK(int amount)
         {
             LUK = BuffDebuff.ModLUK + amount; // ModifiedLUK 사용
-            Utility.SlowType($"운이 {amount}만큼 변경되었습니다. 현재 운: {BuffDebuff.ModLUK}");
+            DisplayStatChange("LUK", amount, BuffDebuff.ModLUK);
         }
+
 
         private void RestoreFullHP()
         {
@@ -214,7 +231,7 @@ namespace TheForgottenQuest.User
                     break;
             }
 
-            AttackPower = (STR * strWeight) + (DEX * dexWeight) + (INT * intWeight);
+            AttackPower = Math.Round((STR * strWeight) + (DEX * dexWeight) + (INT * intWeight), 1);
         }
     }
 }

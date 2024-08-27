@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace TheForgottenQuest.User
 {
@@ -12,6 +13,10 @@ namespace TheForgottenQuest.User
             string json = JsonConvert.SerializeObject(users, Formatting.Indented);
             // 지정된 filePath에 저장, 기존 같은 이름파일 존재하면 덮어쓰기
             File.WriteAllText(filePath, json);
+
+            Utility.SlowType("캐릭터 정보가 저장되었습니다.");
+            Console.WriteLine("다음으로 이동...");
+            Console.ReadLine();
         }
     }
 }
