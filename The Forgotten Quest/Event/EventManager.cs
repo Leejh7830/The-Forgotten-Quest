@@ -91,7 +91,7 @@ namespace TheForgottenQuest.Events
 
             ConsoleKeyInfo keyInfo;
             string choice = null;
-             
+            
             do
             {
                 keyInfo = Console.ReadKey(true);
