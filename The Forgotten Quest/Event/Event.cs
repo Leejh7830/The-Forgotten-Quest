@@ -9,5 +9,6 @@ namespace TheForgottenQuest.Events
         public Dictionary<string, Result> NegativeResults { get; set; } = new Dictionary<string, Result>();
         public int? NextEventId { get; set; }
         public string? Condition { get; set; }
+        public bool IsSequential { get; set; }
     }
 }

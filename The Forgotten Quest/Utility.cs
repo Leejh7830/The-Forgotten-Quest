@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Reflection.Emit;
 using System.Xml.Linq;
+using The_Forgotten_Quest;
 using TheForgottenQuest.Events;
 using TheForgottenQuest.Menu;
 using TheForgottenQuest.User;
@@ -141,6 +142,13 @@ namespace TheForgottenQuest
             Console.WriteLine("=======================================================");
         }
 
+        public static void DisplayAndRunEvent(Event gameEvent, UserDTO player)
+        {
+            Console.Clear(); // 콘솔을 클리어
+            DisplayStats(player); // 스탯을 항상 상단에 표시
+            SlowType(gameEvent.Question);
+            SlowType("어느 선택을 할까요? (1, 2 입력 또는 ESC를 눌러 저장): ");
+        }
 
         public static Result DisplayRollResult(UserDTO player ,Event gameEvent, string choice)
         {
@@ -162,6 +170,8 @@ namespace TheForgottenQuest
 
             return result;
         }
+
+        
 
         public static void GameOver()
         {
