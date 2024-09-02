@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheForgottenQuest.Events;
+﻿using The_Forgotten_Quest;
 using TheForgottenQuest.User;
-using TheForgottenQuest;
-using System.Numerics;
 
-namespace The_Forgotten_Quest.Event
+namespace TheForgottenQuest.Events
 {
     public static class EventProcessor
     {
         public static string RunCombatEvent(Event gameEvent, UserDTO player)
         {
-            // 전투 이벤트 처리 로직 추가
             Console.WriteLine("전투 이벤트 시작!");
-            // 예: 플레이어의 행동 선택 (공격, 방어, 스킬 등)
-            // 적의 행동 처리
-            // 결과 계산 및 반환
-
+            // 전투 로직 작성
             return "next_event_id"; // 전투 결과에 따른 다음 이벤트 ID 반환
         }
 
@@ -28,7 +17,7 @@ namespace The_Forgotten_Quest.Event
             Utility.SlowType(gameEvent.Question);
             Utility.SlowType("어느 선택을 할까요? (1, 2 입력 또는 ESC를 눌러 저장): ");
 
-            string? choice = GetUserChoice();
+            string? choice = GetUserChoice(player);
             if (choice == null) return null; // ESC를 눌러 저장 시
 
             Result result = Utility.DisplayRollResult(player, gameEvent, choice);
@@ -42,7 +31,7 @@ namespace The_Forgotten_Quest.Event
             return result.NextEventId ?? "defaultEventId";
         }
 
-        private static string? GetUserChoice()
+        private static string? GetUserChoice(UserDTO player)
         {
             ConsoleKeyInfo keyInfo;
             string? choice = null;
@@ -69,6 +58,5 @@ namespace The_Forgotten_Quest.Event
 
             return choice;
         }
-
     }
 }

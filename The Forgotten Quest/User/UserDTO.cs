@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using The_Forgotten_Quest.User;
 
+
 namespace TheForgottenQuest.User
 {
     public class UserDTO
