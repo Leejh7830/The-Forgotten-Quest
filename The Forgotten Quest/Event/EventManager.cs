@@ -33,7 +33,8 @@ namespace TheForgottenQuest.Events
                     Console.WriteLine($"조건: {failedCondition}\n");
                     Thread.Sleep(500);
 
-                    RepeatSubEventsUntilConditionMet(gameEvent, player);
+                    // 서브 이벤트 리스트를 EventSet에서 가져옴
+                    RunSubEvent(events.SubEventIds, player);
 
                     gameEvent = events.MainQuest.Find(e => e.Id.ToString() == EventID);
                 }
@@ -47,49 +48,39 @@ namespace TheForgottenQuest.Events
 
             if (!shouldExit)
             {
-                RunRandomSubEvent(player);
+                RunSubEvent(events.SubEventIds, player);
             }
         }
 
-        public static void RunRandomSubEvent(UserDTO player)
+        private static void RunSubEvent(List<string> eventIdList, UserDTO player)
         {
-            if (player.Level <= 20)
-            {
-                RunSubEvent(events.Level1To20, player);
-            }
-            else if (player.Level <= 40)
-            {
-                RunSubEvent(events.Level21To40, player);
-            }
-        }
-
-        private static void RunSubEvent(List<Event> eventList, UserDTO player)
-        {
-            var randomizableEvents = eventList.Where(e => !e.IsSequential).ToList();
-            if (randomizableEvents == null || randomizableEvents.Count == 0)
+            if (eventIdList == null || eventIdList.Count == 0)
             {
                 Utility.SlowType("진행 가능한 이벤트를 찾을 수 없습니다.");
                 return;
             }
 
-            int eventIndex = random.Next(randomizableEvents.Count);
-            var gameEvent = randomizableEvents[eventIndex];
+            // 서브 이벤트 랜덤 선택
+            string randomEventId = eventIdList[new Random().Next(eventIdList.Count)];
+            var gameEvent = events.Level1To20.Find(e => e.Id.ToString() == randomEventId);
+
+            if (gameEvent == null)
+            {
+                Utility.SlowType("올바른 이벤트를 찾을 수 없습니다.");
+                return;
+            }
 
             string nextEventId = EventProcessor.ProcessEventSelection(gameEvent, player);
 
-            if (!string.IsNullOrEmpty(nextEventId))
+            // 다음 이벤트가 전투 이벤트라면 전투 모드로 전환
+            if (nextEventId?.StartsWith("combat_") == true)
             {
-                RunSubEvent(eventList, player);
+                EventProcessor.RunCombatEvent(gameEvent, player);
             }
-        }
-
-        private static void RepeatSubEventsUntilConditionMet(Event gameEvent, UserDTO player)
-        {
-            do
+            else if (!string.IsNullOrEmpty(nextEventId))
             {
-                RunRandomSubEvent(player);
+                RunSubEvent(eventIdList, player); // 다음 이벤트 실행
             }
-            while (!EventConditionChecker.CheckCondition(gameEvent, player, out _));
         }
     }
 }

@@ -10,7 +10,8 @@ namespace TheForgottenQuest.Events
         public List<Event> Level1To20 { get; set; } = new List<Event>();
         public List<Event> Level21To40 { get; set; } = new List<Event>();
 
-        
 
+        // 새로운 서브 이벤트 ID 리스트 추가
+        public List<string> SubEventIds { get; set; } = new List<string> { "1", "10", "21" };
     }
 }
