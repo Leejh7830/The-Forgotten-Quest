@@ -82,5 +82,5 @@ namespace TheForgottenQuest.Events
                 RunSubEvent(eventIdList, player); // 다음 이벤트 실행
             }
         }
-    }
+    } 
 }
