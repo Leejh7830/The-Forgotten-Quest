@@ -77,7 +77,7 @@ namespace TheForgottenQuest.Events
             {
                 keyInfo = Console.ReadKey(true);
 
-                if (keyInfo.Key == ConsoleKey.Escape)
+                if (keyInfo.Key == ConsoleKey.Escape && player != null)
                 {
                     Utility.SavePlayer(player, JsonConstants.PlayerFilePath);
                     return null; // ESC 누르면 메인메뉴로 이동

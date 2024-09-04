@@ -12,6 +12,6 @@ namespace TheForgottenQuest.Events
 
 
         // 새로운 서브 이벤트 ID 리스트 추가
-        public List<string> SubEventIds { get; set; } = new List<string> { "1", "10", "21" };
+        public List<string> SubEventIds { get; set; } = new List<string> { "111", "101", "21" };
     }
 }

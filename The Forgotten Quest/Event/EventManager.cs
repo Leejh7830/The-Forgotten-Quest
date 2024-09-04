@@ -67,6 +67,8 @@ namespace TheForgottenQuest.Events
             if (gameEvent == null)
             {
                 Utility.SlowType("올바른 이벤트를 찾을 수 없습니다.");
+                Console.WriteLine("EventSet.cs에서 이벤트ID를 확인해 주세요.");
+                Thread.Sleep(1000);
                 return;
             }
 

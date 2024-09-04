@@ -83,19 +83,33 @@ namespace TheForgottenQuest.Menu
                 }
 
                 Console.Write("플레이할 캐릭터를 선택하세요: ");
-                int selectedCharacterIndex;
+                int selectedCharacterIndex = -1;
 
-                while (!int.TryParse(Console.ReadLine(), out selectedCharacterIndex) || selectedCharacterIndex < 1 || selectedCharacterIndex > loadedPlayers.Count)
+                while (selectedCharacterIndex == -1)
                 {
-                    Console.WriteLine("올바른 선택을 하지 않았습니다. 다시 시도해주세요.");
-                    Console.Write("플레이할 캐릭터를 선택하세요: ");
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                    char pressedKey = keyInfo.KeyChar;
+
+                    if (char.IsDigit(pressedKey))
+                    {
+                        int numericValue = int.Parse(pressedKey.ToString());
+                        if (numericValue > 0 && numericValue <= loadedPlayers.Count)
+                        {
+                            selectedCharacterIndex = numericValue;
+                        }
+                        else
+                        {
+                            Console.WriteLine("올바른 선택을 하지 않았습니다. 다시 시도해주세요.");
+                        }
+                    }
                 }
 
                 UserDTO selectedPlayer = loadedPlayers[selectedCharacterIndex - 1];
-                Utility.SlowType($"선택된 캐릭터: {selectedPlayer.Name}");
+                Utility.SlowType($"\n선택된 캐릭터: {selectedPlayer.Name}");
+                Thread.Sleep(1000);
                 Console.Clear();
-                Utility.DisplayStats(selectedPlayer);
-                Thread.Sleep(2000);
+                //Utility.DisplayStats(selectedPlayer);
+                //Thread.Sleep(2000);
 
                 EventManager.RunMainQuest(selectedPlayer, EventFilePath); // 선택한 캐릭터로 게임 시작
             }
