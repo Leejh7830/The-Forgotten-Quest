@@ -1,4 +1,5 @@
-﻿using TheForgottenQuest.User;
+﻿using TheForgottenQuest.Menu;
+using TheForgottenQuest.User;
 
 namespace TheForgottenQuest.Events
 {
@@ -6,6 +7,7 @@ namespace TheForgottenQuest.Events
     {
         private static Random random = new Random();
         private static EventSet events = new EventSet();
+        private static bool shouldExit = false;
 
         public static void Initialize(string filePath)
         {
@@ -17,7 +19,7 @@ namespace TheForgottenQuest.Events
             Initialize(filePath);
             string EventID = player.CurrentMainQuestEventId;
 
-            bool shouldExit = false;
+            shouldExit = false; // 메인 메뉴로 나가기 전에 항상 플래그를 초기화
 
             while (!string.IsNullOrEmpty(EventID) && !shouldExit)
             {
@@ -25,7 +27,7 @@ namespace TheForgottenQuest.Events
                 Utility.DisplayStats(player);
                 var gameEvent = events.MainQuest.Find(e => e.Id.ToString() == EventID);
 
-                while (gameEvent != null && !EventConditionChecker.CheckCondition(gameEvent, player, out string failedCondition))
+                while (gameEvent != null && !EventConditionChecker.CheckCondition(gameEvent, player, out string failedCondition) && !shouldExit)
                 {
                     Console.Clear();
                     Utility.DisplayStats(player);
@@ -36,19 +38,20 @@ namespace TheForgottenQuest.Events
                     // 서브 이벤트 리스트를 EventSet에서 가져옴
                     RunSubEvent(events.SubEventIds, player);
 
+                    if (shouldExit) return; // 서브 이벤트에서 메인 메뉴로 나가기로 결정되면 중단
                     gameEvent = events.MainQuest.Find(e => e.Id.ToString() == EventID);
                 }
 
-                EventID = EventProcessor.ProcessEventSelection(gameEvent, player);
-                if (EventID == null)
+                string nextEventID = EventProcessor.ProcessEventSelection(gameEvent, player);
+
+                if (nextEventID == null)
                 {
                     shouldExit = true;
                 }
-            }
-
-            if (!shouldExit)
-            {
-                RunSubEvent(events.SubEventIds, player);
+                else
+                {
+                    EventID = nextEventID;
+                }
             }
         }
 
@@ -68,7 +71,10 @@ namespace TheForgottenQuest.Events
             {
                 Utility.SlowType("올바른 이벤트를 찾을 수 없습니다.");
                 Console.WriteLine("EventSet.cs에서 이벤트ID를 확인해 주세요.");
-                Thread.Sleep(1000);
+                Console.WriteLine("메인 메뉴로 돌아갑니다...");
+                Thread.Sleep(2000);
+                
+                shouldExit = true;
                 return;
             }
 
